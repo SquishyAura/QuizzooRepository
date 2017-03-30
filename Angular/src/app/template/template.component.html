@@ -1,0 +1,65 @@
+<table class=pageTable align=center border="1px">
+    <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)" align=center>
+        <!-- we will place our fields here -->
+        <input type="submit" [disabled]="!myForm.valid" value="Submit Quiz">
+
+        <!-- Quiz Title -->
+        <div class="form-group">
+            <label>Quiz Title</label><br/>
+            <input type="text" formControlName="title" class="form-control"><br/>
+            <small *ngIf="!myForm.controls.title.valid">
+                Title must be between 5-30 characters.
+            </small>
+        </div>
+
+        <br/>
+
+        <!-- List of Questions -->
+        <div formArrayName="questions" align=center>
+            <div [formGroupName]="i" *ngFor="let question of myForm.controls.questions.controls; let i=index" class="Question-panel">
+                <div class="Question-panel-title">
+                    <span>Question {{i + 1}}:</span>
+                    
+                    <question [group]="myForm.controls.questions.controls[i]"></question>
+                    <span class="x-button" *ngIf="myForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)">x</span>
+                    <br/><small *ngIf="!question.controls.questionText.valid">
+                        Question must be at least 10 characters.
+                    </small>
+                    <!-- List of question types -->
+                    <br/><label>Question type:</label>
+                    <select class="Question-type-dropdown" formControlName="types">
+                        <option *ngFor="let type of typesArray">{{type.option}}</option>
+                    </select>
+                    <br/><small *ngIf="!question.controls.types.valid">
+                        Select a question type.
+                    </small>
+                </div>
+
+                <!-- List of Answers -->
+                <div class="Question-panel-content">
+                    <div formArrayName="answers" align=center>
+                        <div [formGroupName]="j" *ngFor="let answer of question.controls.answers.controls; let j=index">
+                            <span>Answer {{j + 1}}:</span>
+                            <answer [group]="question.controls.answers.controls[j]"></answer>
+                            <select class="Question-answer-correct-dropdown" formControlName="correctAnswer">
+                                <option *ngFor="let correct of correctAnswerArray">{{correct.option}}</option>
+                            </select>
+                            <span class="x-button" *ngIf="question.controls.answers.controls.length > 1" (click)="removeAnswer(i, j)">x</span>
+                            <br/><small *ngIf="!answer.controls.answerText.valid">
+                                Answer must be at least 4 characters.
+                            </small>
+                            <br/><small *ngIf="!answer.controls.correctAnswer.valid">
+                                Answer must either be correct or incorrect.
+                            </small>
+                        </div>
+                        <br/><button (click)="addAnswer(i)" class="template-button">Add answer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+        <button (click)="addQuestion()" class="template-button">Add question</button>
+    </form>
+</table>

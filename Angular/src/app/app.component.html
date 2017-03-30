@@ -1,0 +1,22 @@
+<div *ngIf="guest">
+    <div class="header">
+        <img src="../images/arrow.png" class="arrow_image">
+        <a routerLink="/welcome"><img src="../images/home.png" class="home_image"></a>
+        <a routerLink="/login"><img src="../images/Login.png" class="login_image"></a>
+        <a routerLink="/register"><img src="../images/Register.png" class="register_image"></a>
+    </div>
+</div>
+
+<div *ngIf="user">
+    <div class="header">
+        <img src="../images/arrow.png" class="arrow_image">
+        <a routerLink="/home"><img src="../images/home.png" class="home_image"></a>
+        <a (click)="logoutAccount()"><img src="../images/Logout.png" class="login_image"></a>
+    </div>
+</div>
+
+<div id="popUpContainer" [style.opacity]="popUpOpacity" [style.display]="popUpDisplay">
+    <div id="popUpText" [innerHTML]="popUpInnerHTML"></div>
+</div>
+
+<router-outlet></router-outlet>
