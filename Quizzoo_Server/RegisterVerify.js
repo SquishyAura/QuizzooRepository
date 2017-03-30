@@ -7,7 +7,7 @@ registrationVerify = function(socket){
 		var username = incomingMsg.username;
 		var password1 = incomingMsg.password1;
 		var password2 = incomingMsg.password2;
-		createAccountsTableIfNotExists();
+		//createAccountsTableIfNotExists();
 		getAccounts();
 		//restartAccountsTable();
 		/*
