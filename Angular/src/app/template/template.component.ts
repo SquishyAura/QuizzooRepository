@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as io from "socket.io-client";
+import { SocketService } from '../global/socket.service';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Template } from './template.interface'
 
@@ -11,7 +12,7 @@ import { Template } from './template.interface'
 export class TemplateComponent implements OnInit { name = 'Angular'; 
     public myForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder, private socketService: SocketService) { }
 
     private typesArray = [
         {option: ''},
@@ -23,6 +24,12 @@ export class TemplateComponent implements OnInit { name = 'Angular';
         {option: ''},
         {option: 'Correct'},
         {option: 'Incorrect'},
+    ];
+
+    private accessArray = [
+        {option: ''},
+        {option: 'Private'},
+        {option: 'Public'}
     ]
 
     ngOnInit() {
@@ -32,7 +39,8 @@ export class TemplateComponent implements OnInit { name = 'Angular';
             owner: [localStorage.getItem('user')],
             questions: this.formBuilder.array([
                 this.initQuestion()
-            ])
+            ]),
+            access: ['', [Validators.required, Validators.minLength(1)]],
         }); 
     }
 
@@ -78,5 +86,6 @@ export class TemplateComponent implements OnInit { name = 'Angular';
     save(model: Template) {
         // call API to save customer
         console.log(model);
+        this.socketService.socket.emit('quiz', JSON.stringify(model));
     }
 }

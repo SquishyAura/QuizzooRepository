@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var socket_service_1 = require('../global/socket.service');
 var forms_1 = require('@angular/forms');
 var TemplateComponent = (function () {
-    function TemplateComponent(formBuilder) {
+    function TemplateComponent(formBuilder, socketService) {
         this.formBuilder = formBuilder;
+        this.socketService = socketService;
         this.name = 'Angular';
         this.typesArray = [
             { option: '' },
@@ -24,6 +26,11 @@ var TemplateComponent = (function () {
             { option: 'Correct' },
             { option: 'Incorrect' },
         ];
+        this.accessArray = [
+            { option: '' },
+            { option: 'Private' },
+            { option: 'Public' }
+        ];
     }
     TemplateComponent.prototype.ngOnInit = function () {
         // initialize quiz
@@ -32,7 +39,8 @@ var TemplateComponent = (function () {
             owner: [localStorage.getItem('user')],
             questions: this.formBuilder.array([
                 this.initQuestion()
-            ])
+            ]),
+            access: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
         });
     };
     TemplateComponent.prototype.initQuestion = function () {
@@ -71,6 +79,7 @@ var TemplateComponent = (function () {
     TemplateComponent.prototype.save = function (model) {
         // call API to save customer
         console.log(model);
+        this.socketService.socket.emit('quiz', JSON.stringify(model));
     };
     TemplateComponent = __decorate([
         core_1.Component({
@@ -78,7 +87,7 @@ var TemplateComponent = (function () {
             selector: 'template-app',
             templateUrl: 'template.component.html',
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService])
     ], TemplateComponent);
     return TemplateComponent;
 }());

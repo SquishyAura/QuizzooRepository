@@ -8,14 +8,13 @@ var sql = require('mssql');
     port: 1433 //default port for microsoft sql server
 };*/
 
-//var Connection = require('tedious').Connection;
-//var Request = require('tedious').Request;
-
 var config = {
     user: 'QUIZZOOADMIN',
     password: 'Admin123',
     server: 'quizzoo.database.windows.net',
-    options: {encrypt: true, database: 'Quizzoo'}
+    port: "1433",
+    database: 'Quizzoo',
+    options: {encrypt: true}
 }
 
 /*

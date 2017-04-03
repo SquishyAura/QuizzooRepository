@@ -310,3 +310,12 @@ input[type=submit]:active {
 	border-radius: 2px;
 	padding: 2px;
 }
+
+.Quiz-access-dropdown{
+	padding: 5px;
+    margin: 4px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+	width: 21%;
+}

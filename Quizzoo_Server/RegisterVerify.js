@@ -1,5 +1,5 @@
 var path = require('path');
-var updater = require(path.resolve(__dirname, "./DBController.js"));
+var updater = require(path.resolve(__dirname, "./SqlDBController.js"));
 
 registrationVerify = function(socket){
     socket.on('register', function(msg){
@@ -8,7 +8,6 @@ registrationVerify = function(socket){
 		var password1 = incomingMsg.password1;
 		var password2 = incomingMsg.password2;
 		createAccountsTableIfNotExists();
-		//getAccounts();
 		//restartAccountsTable();
 		
 		if(emptyFields(username, password1, password2, socket) == false &&
@@ -18,6 +17,7 @@ registrationVerify = function(socket){
 			//INSERT TO DATABASE
 			register(username, password1, socket);
 		}
+		//getAccounts();
 	});
 }
 

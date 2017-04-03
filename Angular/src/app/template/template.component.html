@@ -10,6 +10,12 @@
             <small *ngIf="!myForm.controls.title.valid">
                 Title must be between 5-30 characters.
             </small>
+            <br/><select class="Quiz-access-dropdown" formControlName="access">
+                <option *ngFor="let access of accessArray">{{access.option}}</option>
+            </select>
+            <br/><small *ngIf="!myForm.controls.access.valid">
+                Select a quiz access level.
+            </small>
         </div>
 
         <br/>

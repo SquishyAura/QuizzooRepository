@@ -2,6 +2,7 @@ export interface Template {
     title: string;
     owner: string;
     questions: Questions[];
+    access: string;
 }
 
 export interface Questions {
