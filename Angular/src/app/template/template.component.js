@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var socket_service_1 = require('../global/socket.service');
 var forms_1 = require('@angular/forms');
+var router_1 = require('@angular/router');
 var TemplateComponent = (function () {
-    function TemplateComponent(formBuilder, socketService) {
+    function TemplateComponent(formBuilder, socketService, router) {
         this.formBuilder = formBuilder;
         this.socketService = socketService;
+        this.router = router;
         this.name = 'Angular';
         this.typesArray = [
             { option: '' },
@@ -35,8 +37,9 @@ var TemplateComponent = (function () {
     TemplateComponent.prototype.ngOnInit = function () {
         // initialize quiz
         this.myForm = this.formBuilder.group({
+            id: "0",
             title: ['', [forms_1.Validators.required, forms_1.Validators.minLength(5), forms_1.Validators.maxLength(30)]],
-            owner: [localStorage.getItem('user')],
+            owner: localStorage.getItem('user'),
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
@@ -56,7 +59,7 @@ var TemplateComponent = (function () {
     TemplateComponent.prototype.initAnswer = function () {
         // initialize answer
         return this.formBuilder.group({
-            answerText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(4)]],
+            answerText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             correctAnswer: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
         });
     };
@@ -76,10 +79,14 @@ var TemplateComponent = (function () {
         var control = this.myForm.get('questions.' + questionIndex + '.answers');
         control.removeAt(answerIndex);
     };
-    TemplateComponent.prototype.save = function (model) {
-        // call API to save customer
-        console.log(model);
-        this.socketService.socket.emit('quiz', JSON.stringify(model));
+    TemplateComponent.prototype.save = function () {
+        var formObject = this.myForm.getRawValue();
+        return formObject;
+    };
+    TemplateComponent.prototype.emitQuiz = function () {
+        var _this = this;
+        this.socketService.socket.emit('quiz', JSON.stringify(this.save()));
+        setTimeout(function () { return _this.router.navigateByUrl('/home'); }, 1000);
     };
     TemplateComponent = __decorate([
         core_1.Component({
@@ -87,7 +94,7 @@ var TemplateComponent = (function () {
             selector: 'template-app',
             templateUrl: 'template.component.html',
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService, router_1.Router])
     ], TemplateComponent);
     return TemplateComponent;
 }());

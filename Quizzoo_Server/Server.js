@@ -10,6 +10,8 @@ var io = require('socket.io')(http); //server instance attached to an instance o
 var path = require('path');
 var updater = require(path.resolve(__dirname, "./RegisterVerify.js")); //'__dir' is the directory name of the current module
 var updater = require(path.resolve(__dirname, "./LoginVerify.js"));
+var updater = require(path.resolve(__dirname, "./QuizVerify.js"));
+var updater = require(path.resolve(__dirname, "./DocumentDBController.js"));
 
 io.on('connect', function (socket) {
 	console.log("a user connected");
@@ -17,6 +19,11 @@ io.on('connect', function (socket) {
 	loginVerify(socket);
 
 	registrationVerify(socket);
+
+	insertQuiz(socket);
+	getQuizzes(socket);
+	getQuiz(socket);
+	deleteQuiz(socket);
 });
 
 

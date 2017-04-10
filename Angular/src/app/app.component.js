@@ -64,7 +64,7 @@ var AppComponent = (function () {
         socketService.socket.on('loginSuccess', function (msg) {
             var incomingMsg = JSON.parse(msg);
             if (incomingMsg.correctAccount == true) {
-                localStorage.setItem('user', JSON.stringify(incomingMsg.username));
+                localStorage.setItem('user', incomingMsg.username);
                 this.popUpFade("You have successfully logged in.");
                 this.user = true;
                 this.guest = false;

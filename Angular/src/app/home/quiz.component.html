@@ -1,0 +1,38 @@
+<table class="pageTable" align="center">
+    <!-- Quiz title -->
+    <div *ngFor="let quiz of quizToDisplay"><br/>
+        Quiz title: {{quiz.title}} <br/> by {{quiz.owner}}<br/><br/>
+        
+        <!-- Quiz questions -->
+        <div *ngFor="let quizQuestions of quiz.questions" align="center">
+            <div class="Question-panel-title" style="padding: 10px; word-wrap: break-word;">
+                Question: {{quizQuestions.questionText}}
+            </div>
+
+            <!-- Quiz answers -->
+            <div class="Question-panel-content" style="padding: 5px; word-wrap: break-word;">
+                <div *ngIf="quizQuestions.types == 'Multiple-choice'" >
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let i=index">
+                        <input type="radio" [(ngModel)]="correctAnswer" name="{{quizQuestions.questionText}}" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted">
+                        {{i + 1}}: {{quizAnswers.answerText}}    
+                    </div>
+                    <div *ngIf="submitted == true">
+                        Your answer is {{correctAnswer}}
+                    </div>
+                </div>
+            
+                <div *ngIf="quizQuestions.types == 'Checkboxes'">
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let i=index">
+                        <input type="checkbox" name="{{quizQuestions.questionText}}" value="{{quizAnswers.correctAnswer}}">
+                        {{i + 1}}: {{quizAnswers.answerText}}    
+                    </div>
+                </div>
+            </div><br/>
+        </div>
+        <input type="submit" value="Submit" (click)="submitAnswer()">
+        <input type="submit" value="View Statistics">
+        <div *ngIf="quiz.owner == currentUser">
+            <input type="submit" value="Delete Quiz" (click)="deleteQuiz(quiz.id)">
+        </div>
+    </div>
+</table>

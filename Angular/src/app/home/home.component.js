@@ -9,18 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var quizObserver_service_1 = require('./quizObserver.service');
 var HomeComponent = (function () {
-    function HomeComponent() {
-        this.name = 'Angular';
+    function HomeComponent(quizObserverService) {
+        this.quizObserverService = quizObserverService;
+        this.quizzesToDisplay = [];
         console.log("Logged in as " + localStorage.getItem('user'));
     }
+    HomeComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.service = this.quizObserverService.getQuizzes().subscribe(function (data) {
+            _this.quizzesToDisplay = data;
+        });
+    };
+    HomeComponent.prototype.ngOnDestroy = function () {
+        this.service.unsubscribe();
+    };
     HomeComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'home-app',
             templateUrl: 'home.component.html',
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [quizObserver_service_1.QuizObserverService])
     ], HomeComponent);
     return HomeComponent;
 }());

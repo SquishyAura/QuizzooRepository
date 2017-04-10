@@ -11,9 +11,11 @@ import { HomeComponent } from './home/home.component';
 import { TemplateComponent } from './template/template.component';
 import { QuestionComponent } from './template/question.component'; 
 import { AnswerComponent } from './template/answer.component'; 
+import { QuizComponent } from './home/quiz.component'
 
 import { SocketService } from './global/socket.service';
 import { AuthService } from './global/auth.service';
+import { QuizObserverService } from './home/quizObserver.service'
 
 @NgModule({
   imports:      [ BrowserModule,
@@ -26,6 +28,7 @@ import { AuthService } from './global/auth.service';
                    { path: 'register', component: RegisterComponent},
                    { path: 'home', component: HomeComponent, canActivate: [AuthService]},
                    { path: 'template', component: TemplateComponent, canActivate: [AuthService]},
+                   { path: 'home/quiz/:id', component: QuizComponent, canActivate: [AuthService]},
                 ])
   ],
   declarations: [ AppComponent,
@@ -36,9 +39,11 @@ import { AuthService } from './global/auth.service';
                   TemplateComponent,
                   QuestionComponent,
                   AnswerComponent,
+                  QuizComponent,
                 ],
   providers: [ SocketService,
                AuthService,
+               QuizObserverService,
              ],
   bootstrap:    [ AppComponent ]
 })

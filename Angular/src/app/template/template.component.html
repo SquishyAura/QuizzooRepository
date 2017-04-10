@@ -1,8 +1,7 @@
 <table class=pageTable align=center border="1px">
-    <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)" align=center>
+    <form [formGroup]="myForm" novalidate (ngSubmit)="save()" align=center>
         <!-- we will place our fields here -->
-        <input type="submit" [disabled]="!myForm.valid" value="Submit Quiz">
-
+        <input type="submit" value="Submit Quiz" class="btn btn-primary" [disabled]="!myForm.valid" (click)="emitQuiz()">
         <!-- Quiz Title -->
         <div class="form-group">
             <label>Quiz Title</label><br/>
@@ -19,7 +18,7 @@
         </div>
 
         <br/>
-
+        
         <!-- List of Questions -->
         <div formArrayName="questions" align=center>
             <div [formGroupName]="i" *ngFor="let question of myForm.controls.questions.controls; let i=index" class="Question-panel">

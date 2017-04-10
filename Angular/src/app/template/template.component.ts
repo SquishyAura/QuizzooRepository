@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as io from "socket.io-client";
 import { SocketService } from '../global/socket.service';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Template } from './template.interface'
+import { Router } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -12,7 +12,7 @@ import { Template } from './template.interface'
 export class TemplateComponent implements OnInit { name = 'Angular'; 
     public myForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder, private socketService: SocketService) { }
+    constructor(private formBuilder: FormBuilder, private socketService: SocketService, private router: Router) { }
 
     private typesArray = [
         {option: ''},
@@ -35,8 +35,9 @@ export class TemplateComponent implements OnInit { name = 'Angular';
     ngOnInit() {
         // initialize quiz
         this.myForm = this.formBuilder.group({
+            id: "0",
             title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
-            owner: [localStorage.getItem('user')],
+            owner: localStorage.getItem('user'),
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
@@ -58,7 +59,7 @@ export class TemplateComponent implements OnInit { name = 'Angular';
     initAnswer() {
         // initialize answer
         return this.formBuilder.group({
-            answerText: ['', [Validators.required, Validators.minLength(4)]],
+            answerText: ['', [Validators.required, Validators.minLength(1)]],
             correctAnswer: ['', [Validators.required, Validators.minLength(1)]],
         });
     }
@@ -83,9 +84,13 @@ export class TemplateComponent implements OnInit { name = 'Angular';
         control.removeAt(answerIndex);
     }
 
-    save(model: Template) {
-        // call API to save customer
-        console.log(model);
-        this.socketService.socket.emit('quiz', JSON.stringify(model));
+    save() {
+        let formObject = this.myForm.getRawValue();
+        return formObject;
+    }
+
+    emitQuiz(){
+        this.socketService.socket.emit('quiz', JSON.stringify(this.save()));
+        setTimeout(() => this.router.navigateByUrl('/home'), 1000);
     }
 }

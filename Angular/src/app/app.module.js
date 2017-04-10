@@ -20,8 +20,10 @@ var home_component_1 = require('./home/home.component');
 var template_component_1 = require('./template/template.component');
 var question_component_1 = require('./template/question.component');
 var answer_component_1 = require('./template/answer.component');
+var quiz_component_1 = require('./home/quiz.component');
 var socket_service_1 = require('./global/socket.service');
 var auth_service_1 = require('./global/auth.service');
+var quizObserver_service_1 = require('./home/quizObserver.service');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,6 +39,7 @@ var AppModule = (function () {
                     { path: 'register', component: register_component_1.RegisterComponent },
                     { path: 'home', component: home_component_1.HomeComponent, canActivate: [auth_service_1.AuthService] },
                     { path: 'template', component: template_component_1.TemplateComponent, canActivate: [auth_service_1.AuthService] },
+                    { path: 'home/quiz/:id', component: quiz_component_1.QuizComponent, canActivate: [auth_service_1.AuthService] },
                 ])
             ],
             declarations: [app_component_1.AppComponent,
@@ -47,9 +50,11 @@ var AppModule = (function () {
                 template_component_1.TemplateComponent,
                 question_component_1.QuestionComponent,
                 answer_component_1.AnswerComponent,
+                quiz_component_1.QuizComponent,
             ],
             providers: [socket_service_1.SocketService,
                 auth_service_1.AuthService,
+                quizObserver_service_1.QuizObserverService,
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 

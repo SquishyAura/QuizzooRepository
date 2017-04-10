@@ -227,6 +227,8 @@ input[type=submit]:active {
 	height: 100vh;
 	background-color: white;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	display: block;
+	text-align: center;
 }
 
 .Question-panel{
