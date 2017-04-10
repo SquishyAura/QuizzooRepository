@@ -14,7 +14,9 @@ export class QuizComponent implements OnInit, OnDestroy {
     data: any;
     quizToDisplay: any;
     currentUser: string;
-    correctAnswer: string = '';
+    correctAnswerMultipleChoice: string = 'Incorrect';
+    CheckboxesValues: string[] = [];
+    correctAnswerCheckbox: string = 'Incorrect';
     submitted: boolean = false;
 
     constructor(private router:Router, private quizObserverService:QuizObserverService, private socketService:SocketService){
@@ -37,8 +39,14 @@ export class QuizComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/home');
     }
 
+    handleCheckboxAnswer(index: number, correct: string) {
+        this.CheckboxesValues[index] = correct;
+    }
+
     submitAnswer(){
         this.submitted = true;
-        console.log(this.correctAnswer);
+        if(this.CheckboxesValues.indexOf('Incorrect', 0) < 0){
+            this.correctAnswerCheckbox = "Correct";
+        }
     }
 } 

@@ -13,18 +13,21 @@
             <div class="Question-panel-content" style="padding: 5px; word-wrap: break-word;">
                 <div *ngIf="quizQuestions.types == 'Multiple-choice'" >
                     <div *ngFor="let quizAnswers of quizQuestions.answers; let i=index">
-                        <input type="radio" [(ngModel)]="correctAnswer" name="{{quizQuestions.questionText}}" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted">
+                        <input type="radio" [(ngModel)]="correctAnswerMultipleChoice" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted">
                         {{i + 1}}: {{quizAnswers.answerText}}    
                     </div>
                     <div *ngIf="submitted == true">
-                        Your answer is {{correctAnswer}}
+                        Your answer is {{correctAnswerMultipleChoice}}
                     </div>
                 </div>
             
                 <div *ngIf="quizQuestions.types == 'Checkboxes'">
                     <div *ngFor="let quizAnswers of quizQuestions.answers; let i=index">
-                        <input type="checkbox" name="{{quizQuestions.questionText}}" value="{{quizAnswers.correctAnswer}}">
+                        <input type="checkbox" name="checkboxGroup" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted" (click)="handleCheckboxAnswer(i, quizAnswers.correctAnswer)">
                         {{i + 1}}: {{quizAnswers.answerText}}    
+                    </div>
+                    <div *ngIf="submitted == true">
+                        Your answer is {{correctAnswerCheckbox}}
                     </div>
                 </div>
             </div><br/>

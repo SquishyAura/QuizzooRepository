@@ -17,7 +17,9 @@ var QuizComponent = (function () {
         this.router = router;
         this.quizObserverService = quizObserverService;
         this.socketService = socketService;
-        this.correctAnswer = '';
+        this.correctAnswerMultipleChoice = 'Incorrect';
+        this.CheckboxesValues = [];
+        this.correctAnswerCheckbox = 'Incorrect';
         this.submitted = false;
         this.currentUser = localStorage.getItem('user');
     }
@@ -35,9 +37,14 @@ var QuizComponent = (function () {
         this.socketService.socket.emit('deleteQuiz', JSON.stringify(id));
         this.router.navigateByUrl('/home');
     };
+    QuizComponent.prototype.handleCheckboxAnswer = function (index, correct) {
+        this.CheckboxesValues[index] = correct;
+    };
     QuizComponent.prototype.submitAnswer = function () {
         this.submitted = true;
-        console.log(this.correctAnswer);
+        if (this.CheckboxesValues.indexOf('Incorrect', 0) < 0) {
+            this.correctAnswerCheckbox = "Correct";
+        }
     };
     QuizComponent = __decorate([
         core_1.Component({
