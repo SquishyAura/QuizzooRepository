@@ -19,10 +19,9 @@ var QuizComponent = (function () {
         this.socketService = socketService;
         this.elementRef = elementRef;
         this.correctAnswerMultipleChoice = 'Incorrect';
-        this.CheckboxesValues = [];
-        this.correctAnswerCheckbox = 'Incorrect';
         this.submitted = false;
         this.answersArray = [];
+        this.timers = { 'hours': 0, 'minutes': 0, 'seconds': 0 };
         this.currentUser = localStorage.getItem('user');
     }
     QuizComponent.prototype.ngOnInit = function () {
@@ -30,6 +29,10 @@ var QuizComponent = (function () {
         this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(function (data) {
             console.log(data);
             _this.quizToDisplay = data;
+            if (_this.quizToDisplay[0].duration != 'Unlimited') {
+                _this.duration = _this.quizToDisplay[0].duration * 60; //in seconds
+                _this.countdown();
+            }
         });
     };
     QuizComponent.prototype.ngOnDestroy = function () {
@@ -41,36 +44,26 @@ var QuizComponent = (function () {
     };
     QuizComponent.prototype.handleMultiplechoiceAnswer = function () {
         var rawr = this.elementRef.nativeElement.querySelectorAll('#rawr');
-        for (var i = 0; i < this.quizToDisplay[0].questions.length; i++) {
-            if (this.quizToDisplay[0].questions[i].types == "Multiple-choice") {
-                for (var j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++) {
-                    this.answersArray.push(this.quizToDisplay[0].questions[i].answers[j]);
-                }
-            }
-        }
-        if (this.handleMultiplechoiceAnswerCorrect(rawr)) {
-            return this.handleMultiplechoiceAnswerCorrect(rawr);
+    };
+    QuizComponent.prototype.countdown = function () {
+        var _this = this;
+        if (this.duration > 0) {
+            this.duration--;
+            this.timers['seconds'] = this.duration % 60;
+            this.timers['minutes'] = Math.trunc((this.duration / 60) % 60);
+            this.timers['hours'] = Math.trunc((this.duration / 60 / 60) % 24);
+            setTimeout(function () { if (_this.submitted == false) {
+                _this.countdown();
+            } }, 1000);
         }
         else {
-            return this.handleMultiplechoiceAnswerIncorrect(rawr);
+            this.submitAnswer();
         }
-    };
-    QuizComponent.prototype.handleMultiplechoiceAnswerCorrect = function (rawr) {
-        for (var k = 0; k < rawr.length; k++) {
-            if (this.answersArray[k].correctAnswer == rawr[k].value && rawr[k].value == "Correct" && rawr[k].checked == true) {
-                return "Correct";
-            }
-        }
-    };
-    QuizComponent.prototype.handleMultiplechoiceAnswerIncorrect = function (rawr) {
-        return "Incorrect";
-    };
-    QuizComponent.prototype.handleCheckboxAnswer = function (index, correct) {
-        this.CheckboxesValues[index] = correct;
     };
     QuizComponent.prototype.submitAnswer = function () {
         this.submitted = true;
-        this.correctAnswerMultipleChoice = this.handleMultiplechoiceAnswer();
+        console.log("oki");
+        //this.correctAnswerMultipleChoice = this.handleMultiplechoiceAnswer();
     };
     QuizComponent = __decorate([
         core_1.Component({

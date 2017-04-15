@@ -12,22 +12,29 @@ import { SocketService } from '../global/socket.service';
 export class QuizComponent implements OnInit, OnDestroy {
     service: any;
     data: any;
+
     quizToDisplay: any;
     currentUser: string;
     correctAnswerMultipleChoice: string = 'Incorrect';
-    CheckboxesValues: string[] = [];
-    correctAnswerCheckbox: string = 'Incorrect';
     submitted: boolean = false;
     answersArray: any[] = [];
+
+    timers = {'hours': 0, 'minutes': 0, 'seconds': 0}
+    duration: number;
+    counter: number;
 
     constructor(private router:Router, private quizObserverService:QuizObserverService, private socketService:SocketService, private elementRef:ElementRef){
         this.currentUser = localStorage.getItem('user');
     }
 
     ngOnInit() {
-        this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(data => { //only gets JSON upon page load
+        this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(data => { //subscribes to service & gets JSON upon page load
             console.log(data);
             this.quizToDisplay = data;
+            if(this.quizToDisplay[0].duration != 'Unlimited'){ //if quiz duration isn't unlimited, the timer is run.
+                this.duration = this.quizToDisplay[0].duration * 60; //in seconds
+                this.countdown();
+            }
         })
     }
 
@@ -42,45 +49,26 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     handleMultiplechoiceAnswer(){
         let rawr = this.elementRef.nativeElement.querySelectorAll('#rawr');
+    }
 
-
-
-        for(let i = 0; i < this.quizToDisplay[0].questions.length; i++){
-            if(this.quizToDisplay[0].questions[i].types == "Multiple-choice"){
-                for(let j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++){
-                    this.answersArray.push(this.quizToDisplay[0].questions[i].answers[j]);
-                }
-            }
-        }
-
-        if(this.handleMultiplechoiceAnswerCorrect(rawr)){
-            return this.handleMultiplechoiceAnswerCorrect(rawr);
+    countdown(){
+        if(this.duration > 0){
+            this.duration--;
+            this.timers['seconds'] = this.duration % 60;
+            this.timers['minutes'] = Math.trunc((this.duration / 60) % 60);
+            this.timers['hours'] = Math.trunc((this.duration / 60 / 60 ) % 24);
+            
+            setTimeout(() => { if(this.submitted == false){ this.countdown(); }}, 1000);
         }
         else
         {
-            return this.handleMultiplechoiceAnswerIncorrect(rawr);
+            this.submitAnswer();
         }
-    }
-
-    handleMultiplechoiceAnswerCorrect(rawr: any){
-        for(let k = 0; k < rawr.length; k++){
-
-            if(this.answersArray[k].correctAnswer == rawr[k].value && rawr[k].value == "Correct" && rawr[k].checked == true){ 
-                return "Correct";
-            }
-        }
-    }
-
-    handleMultiplechoiceAnswerIncorrect(rawr: any){
-        return "Incorrect";
-    }
-
-    handleCheckboxAnswer(index: number, correct: string) {
-        this.CheckboxesValues[index] = correct;
     }
 
     submitAnswer(){
         this.submitted = true;
-        this.correctAnswerMultipleChoice = this.handleMultiplechoiceAnswer();
+        console.log("oki");
+        //this.correctAnswerMultipleChoice = this.handleMultiplechoiceAnswer();
     }
 }

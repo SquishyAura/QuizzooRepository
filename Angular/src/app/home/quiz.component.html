@@ -5,8 +5,23 @@
 
         <!-- Quiz timer -->
         <div *ngIf="quiz.duration != 'Unlimited'">
-            <h1>okay</h1>
+            <br/>
+            <div id="clockContainer">
+				<div id="hoursContainer">
+					<span>{{timers.hours}}</span>
+					<div id="hoursText">Hours</div>
+				</div>
+				<div id="minutesContainer">
+					<span>{{timers.minutes}}</span>
+					<div id="minutesText">Minutes</div>
+				</div>
+				<div id="secondsContainer">
+					<span>{{timers.seconds}}</span>
+					<div id="secondsText">Seconds</div>
+				</div>
+			</div>
         </div>
+        <br/>
         
         <!-- Quiz questions -->
         <div *ngFor="let quizQuestions of quiz.questions; let i=index" align="center">
@@ -21,7 +36,7 @@
                         <input type="radio" id="rawr" name="{{quizQuestions.questionText}}" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted">
                         <label for="rawr">{{quizAnswers.answerText}}</label>
                         <div *ngIf="submitted == true">
-                            {{handleMultiplechoiceAnswer(i, j)}}
+                            Your answer is ...
                         </div> 
                     </div> 
                 </div>
@@ -32,7 +47,7 @@
                         {{i + 1}}: {{quizAnswers.answerText}}    
                     </div>
                     <div *ngIf="submitted == true">
-                        Your answer is {{correctAnswerCheckbox}}
+                        Your answer is ...
                     </div>
                 </div>
             </div><br/>

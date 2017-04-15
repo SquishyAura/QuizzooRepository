@@ -248,6 +248,28 @@ a:hover, a:visited, a:link, a:active
 	font-size: 16px;
 }
 
+/* QUIZ PAGE */
+#clockContainer{
+	font-family: "Verdana", Times, Sans-serif;
+	color: rgb(0, 51, 102);
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
+
+#secondsContainer, #minutesContainer, #hoursContainer{
+	padding: 10px;
+	border-radius: 3px;
+	background: rgb(255, 255, 255);
+	box-shadow: 2px 2px black;
+	display: inline-block;
+}
+
+#secondsText, #minutesText, #hoursText{
+	font-size: 12px;
+}
+
 /* TEMPLATE PAGE */
 .pageTable{
 	padding-top: 3%;
