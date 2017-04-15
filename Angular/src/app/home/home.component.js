@@ -18,7 +18,7 @@ var HomeComponent = (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.service = this.quizObserverService.getQuizzes().subscribe(function (data) {
+        this.service = this.quizObserverService.getPublicQuizzes().subscribe(function (data) {
             _this.quizzesToDisplay = data;
         });
     };

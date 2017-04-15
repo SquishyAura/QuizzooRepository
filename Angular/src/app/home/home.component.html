@@ -1,9 +1,17 @@
 <table class="pageTable" align="center">
     <a routerLink="/template"><input type="submit" value="Create Quiz"></a>
-    
-        <div *ngFor="let quiz of quizzesToDisplay"><br/>
-            <a routerLink="/home/quiz/{{quiz.id}}">
-                {{quiz.title}} by {{quiz.owner}}
-            </a>
-        </div>
+
+    <div *ngFor="let quiz of quizzesToDisplay"><br/>
+        <a routerLink="/home/quiz/{{quiz.id}}">
+            <div class="quizWhole" align="right">
+                <div class="quizTitle">
+                    {{quiz.title}}
+                </div> 
+                <div class="quizDuration">
+                    Duration: {{quiz.duration}} minute(s)
+                </div>
+                by {{quiz.owner}}
+            </div>
+        </a>
+    </div>
 </table>

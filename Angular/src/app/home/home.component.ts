@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   } 
 
   ngOnInit() {
-    this.service = this.quizObserverService.getQuizzes().subscribe(data => {
+    this.service = this.quizObserverService.getPublicQuizzes().subscribe(data => {
       this.quizzesToDisplay = data;
     })
   }

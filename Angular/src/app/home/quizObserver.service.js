@@ -15,11 +15,10 @@ var QuizObserverService = (function () {
     function QuizObserverService(socketService) {
         this.socketService = socketService;
     }
-    QuizObserverService.prototype.getQuizzes = function () {
+    QuizObserverService.prototype.getPublicQuizzes = function () {
         var _this = this;
         var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('getQuizzes', null, function (error, msg) {
-                //this.quizzesToDisplay = msg;
+            _this.socketService.socket.emit('getPublicQuizzes', null, function (error, msg) {
                 observer.next(msg);
             });
         });
@@ -28,13 +27,22 @@ var QuizObserverService = (function () {
     QuizObserverService.prototype.getQuiz = function (id) {
         var _this = this;
         var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('getQuiz', id, function (error, msg) {
+            _this.socketService.socket.emit('getQuiz', JSON.stringify(id), function (error, msg) {
                 if (msg.length > 0) {
                     observer.next(msg); //if id exists in database, return the JSON object
                 }
                 else {
                     observer.next(error); //if id doesn't exist, return error message
                 }
+            });
+        });
+        return observable;
+    };
+    QuizObserverService.prototype.getMyQuizzes = function (currentUser) {
+        var _this = this;
+        var observable = new Observable_1.Observable(function (observer) {
+            _this.socketService.socket.emit('getMyQuizzes', JSON.stringify(currentUser), function (error, msg) {
+                observer.next(msg);
             });
         });
         return observable;

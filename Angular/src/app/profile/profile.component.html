@@ -1,0 +1,16 @@
+<table class="pageTable" align="center">
+    <h1>{{currentUser}}'s profile</h1>
+    <h4>My quizzes</h4>
+    <div *ngFor="let quiz of myQuizzes"><br/>
+        <a routerLink="/home/quiz/{{quiz.id}}">
+            <div class="quizWhole">
+                <div class="quizTitle">
+                    {{quiz.title}}
+                </div> 
+                <div class="quizOwner">
+                    {{quiz.owner}}
+                </div>
+            </div>
+        </a>
+    </div>
+</table>

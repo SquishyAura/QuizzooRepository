@@ -155,11 +155,11 @@ insertDocument = function(document){
         .then(() => queryCollection())
 }
 
-getQuizzes = function(socket){
-    socket.on('getQuizzes', function(data, callback) {
+getPublicQuizzes = function(socket){
+    socket.on('getPublicQuizzes', function(data, callback) {
         client.queryDocuments(
             collectionUrl,
-            'SELECT * FROM quizzes q'
+            'SELECT * FROM quizzes q WHERE q.access = "Public"'
         ).toArray((err, results) => {
             if (err) { 
                 console.log(err) ;
@@ -177,7 +177,8 @@ getQuizzes = function(socket){
 
 getQuiz = function(socket){
     socket.on('getQuiz', function(data, callback) {
-        var id = data.split("/");
+        let incomingMessage = JSON.parse(data);
+        var id = incomingMessage.split("/");
         client.queryDocuments(
             collectionUrl,
             'SELECT * FROM quizzes q WHERE q.id = "' + id[3] +'"'
@@ -210,5 +211,25 @@ deleteQuiz = function(socket){
             });
         });
     })
-    
+}
+
+getMyQuizzes = function(socket){
+    socket.on('getMyQuizzes', function(data, callback){
+        let incomingMessage = JSON.parse(data);
+        client.queryDocuments(
+            collectionUrl,
+            'SELECT * FROM quizzes q WHERE q.owner = "' + incomingMessage + '"'
+        ).toArray((err, results) => {
+            if (err) { 
+                console.log(err) ;
+            }
+            else {
+                /*for (var queryResult of results) {
+                    let resultString = JSON.stringify(queryResult);
+                    console.log(`\tQuery returned ${resultString}`);
+                }*/
+                callback('error', results)
+            }
+        });
+    })
 }

@@ -11,11 +11,12 @@ import { HomeComponent } from './home/home.component';
 import { TemplateComponent } from './template/template.component';
 import { QuestionComponent } from './template/question.component'; 
 import { AnswerComponent } from './template/answer.component'; 
-import { QuizComponent } from './home/quiz.component'
+import { QuizComponent } from './home/quiz.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { SocketService } from './global/socket.service';
 import { AuthService } from './global/auth.service';
-import { QuizObserverService } from './home/quizObserver.service'
+import { QuizObserverService } from './home/quizObserver.service';
 
 @NgModule({
   imports:      [ BrowserModule,
@@ -29,6 +30,7 @@ import { QuizObserverService } from './home/quizObserver.service'
                    { path: 'home', component: HomeComponent, canActivate: [AuthService]},
                    { path: 'template', component: TemplateComponent, canActivate: [AuthService]},
                    { path: 'home/quiz/:id', component: QuizComponent, canActivate: [AuthService]},
+                   { path: 'profile', component: ProfileComponent, canActivate: [AuthService]},
                 ])
   ],
   declarations: [ AppComponent,
@@ -40,6 +42,7 @@ import { QuizObserverService } from './home/quizObserver.service'
                   QuestionComponent,
                   AnswerComponent,
                   QuizComponent,
+                  ProfileComponent,
                 ],
   providers: [ SocketService,
                AuthService,

@@ -8,19 +8,18 @@ import { SocketService } from '../global/socket.service';
 export class QuizObserverService {
     constructor(private socketService:SocketService){}
 
-    getQuizzes(){
+    getPublicQuizzes(){ //gets all quizzes to display on home page
         let observable = new Observable((observer:any) => {
-            this.socketService.socket.emit('getQuizzes', null, function(error: any, msg: any) { //callback. We send an empty message (null)
-                //this.quizzesToDisplay = msg;
+            this.socketService.socket.emit('getPublicQuizzes', null, function(error: any, msg: any) { //callback. We send an empty message (null)
                 observer.next(msg);
             });
         })
         return observable;
     }
 
-    getQuiz(id: string){
+    getQuiz(id: string){ //loads quiz based on id
         let observable = new Observable((observer:any) => {
-            this.socketService.socket.emit('getQuiz', id, function(error: any, msg: any) {
+            this.socketService.socket.emit('getQuiz', JSON.stringify(id), function(error: any, msg: any) {
                 if(msg.length > 0){
                     observer.next(msg); //if id exists in database, return the JSON object
                 }
@@ -29,6 +28,15 @@ export class QuizObserverService {
                     observer.next(error); //if id doesn't exist, return error message
                 }
             })
+        })
+        return observable;
+    }
+
+    getMyQuizzes(currentUser: string){ //gets and displays the logged in person's quizzes
+        let observable = new Observable((observer:any) => {
+            this.socketService.socket.emit('getMyQuizzes', JSON.stringify(currentUser), function(error: any, msg: any) { //callback. We send an empty message (null)
+                observer.next(msg);
+            });
         })
         return observable;
     }

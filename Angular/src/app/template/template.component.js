@@ -21,7 +21,7 @@ var TemplateComponent = (function () {
         this.typesArray = [
             { option: '' },
             { option: 'Multiple-choice' },
-            { option: 'Checkboxes' }
+            { option: 'Checkboxes' },
         ];
         this.correctAnswerArray = [
             { option: '' },
@@ -30,8 +30,23 @@ var TemplateComponent = (function () {
         ];
         this.accessArray = [
             { option: '' },
+            { option: 'Public' },
             { option: 'Private' },
-            { option: 'Public' }
+        ];
+        this.durationArray = [
+            { option: '' },
+            { option: '1' },
+            { option: '2' },
+            { option: '5' },
+            { option: '10' },
+            { option: '15' },
+            { option: '20' },
+            { option: '30' },
+            { option: '60' },
+            { option: '120' },
+            { option: '180' },
+            { option: '240' },
+            { option: 'Unlimited' },
         ];
     }
     TemplateComponent.prototype.ngOnInit = function () {
@@ -40,20 +55,21 @@ var TemplateComponent = (function () {
             id: "0",
             title: ['', [forms_1.Validators.required, forms_1.Validators.minLength(5), forms_1.Validators.maxLength(30)]],
             owner: localStorage.getItem('user'),
+            access: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
+            duration: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
-            access: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
         });
     };
     TemplateComponent.prototype.initQuestion = function () {
         // initialize question
         return this.formBuilder.group({
             questionText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(10)]],
+            types: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             answers: this.formBuilder.array([
                 this.initAnswer()
             ]),
-            types: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
         });
     };
     TemplateComponent.prototype.initAnswer = function () {

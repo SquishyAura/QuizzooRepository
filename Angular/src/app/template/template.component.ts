@@ -17,7 +17,7 @@ export class TemplateComponent implements OnInit { name = 'Angular';
     private typesArray = [
         {option: ''},
         {option: 'Multiple-choice'},
-        {option: 'Checkboxes'}
+        {option: 'Checkboxes'},
     ];
 
     private correctAnswerArray = [
@@ -28,9 +28,25 @@ export class TemplateComponent implements OnInit { name = 'Angular';
 
     private accessArray = [
         {option: ''},
+        {option: 'Public'},
         {option: 'Private'},
-        {option: 'Public'}
-    ]
+    ];
+
+    private durationArray = [
+        {option: ''},
+        {option: '1'},
+        {option: '2'},
+        {option: '5'},
+        {option: '10'},
+        {option: '15'},
+        {option: '20'},
+        {option: '30'},
+        {option: '60'},
+        {option: '120'},
+        {option: '180'},
+        {option: '240'},
+        {option: 'Unlimited'},
+    ];
 
     ngOnInit() {
         // initialize quiz
@@ -38,10 +54,11 @@ export class TemplateComponent implements OnInit { name = 'Angular';
             id: "0",
             title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
             owner: localStorage.getItem('user'),
+            access: ['', [Validators.required, Validators.minLength(1)]],
+            duration: ['', [Validators.required, Validators.minLength(1)]],
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
-            access: ['', [Validators.required, Validators.minLength(1)]],
         }); 
     }
 
@@ -49,10 +66,10 @@ export class TemplateComponent implements OnInit { name = 'Angular';
         // initialize question
         return this.formBuilder.group({
             questionText: ['', [Validators.required, Validators.minLength(10)]],
+            types: ['', [Validators.required, Validators.minLength(1)]],
             answers: this.formBuilder.array([
                 this.initAnswer()
             ]),
-            types: ['', [Validators.required, Validators.minLength(1)]],
         });
     }
 

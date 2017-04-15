@@ -1,19 +1,28 @@
-<table class=pageTable align=center border="1px">
+<table class=pageTable align="center">
+    <h1> hej </h1>
     <form [formGroup]="myForm" novalidate (ngSubmit)="save()" align=center>
-        <!-- we will place our fields here -->
         <input type="submit" value="Submit Quiz" class="btn btn-primary" [disabled]="!myForm.valid" (click)="emitQuiz()">
-        <!-- Quiz Title -->
+        <!-- Quiz Information -->
         <div class="form-group">
             <label>Quiz Title</label><br/>
             <input type="text" formControlName="title" class="form-control"><br/>
             <small *ngIf="!myForm.controls.title.valid">
                 Title must be between 5-30 characters.
             </small>
+            <br/><br/><label>Quiz Access</label>
             <br/><select class="Quiz-access-dropdown" formControlName="access">
                 <option *ngFor="let access of accessArray">{{access.option}}</option>
             </select>
             <br/><small *ngIf="!myForm.controls.access.valid">
                 Select a quiz access level.
+            </small>
+            <br/><br/><label>Quiz Duration</label>
+            <br/><small>(in minutes)</small>
+            <br/><select class="Quiz-access-dropdown" formControlName="duration">
+                <option *ngFor="let duration of durationArray">{{duration.option}}</option>
+            </select>
+            <br/><small *ngIf="!myForm.controls.duration.valid">
+                Select a quiz duration.
             </small>
         </div>
 
