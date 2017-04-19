@@ -19,6 +19,7 @@ var QuizComponent = (function () {
         this.socketService = socketService;
         this.elementRef = elementRef;
         this.correctAnswerMultipleChoice = [];
+        this.correctAnswerCheckboxes = [];
         this.submitted = false;
         this.timers = { 'hours': 0, 'minutes': 0, 'seconds': 0 };
         this.currentUser = localStorage.getItem('user');
@@ -41,24 +42,51 @@ var QuizComponent = (function () {
         this.socketService.socket.emit('deleteQuiz', JSON.stringify(id));
         this.router.navigateByUrl('/home');
     };
-    QuizComponent.prototype.handleMultiplechoiceAnswer = function () {
-        var radiobuttons = this.elementRef.nativeElement.getElementsByClassName('answerClass');
-        this.correctAnswerMultipleChoice = [];
-        var k = 0;
+    QuizComponent.prototype.handleMultiplechoiceAnswers = function () {
+        var radiobuttons = this.elementRef.nativeElement.getElementsByClassName('radiobuttons');
+        var radiobuttonIndex = 0;
+        //loop through all questions
         for (var i = 0; i < this.quizToDisplay[0].questions.length; i++) {
+            //if question is multiple choice
             if (this.quizToDisplay[0].questions[i].types == "Multiple-choice") {
                 var isCorrect = false;
                 for (var j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++) {
-                    if (radiobuttons[k].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer === 'Correct') {
+                    if (radiobuttons[radiobuttonIndex].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Correct') {
                         isCorrect = true;
                     }
-                    k++;
+                    radiobuttonIndex++;
                 }
                 if (isCorrect == true) {
-                    this.correctAnswerMultipleChoice.push('Correct');
+                    this.correctAnswerMultipleChoice[i] = 'Correct';
                 }
                 else {
-                    this.correctAnswerMultipleChoice.push('Incorrect');
+                    this.correctAnswerMultipleChoice[i] = 'Incorrect';
+                }
+            }
+        }
+    };
+    QuizComponent.prototype.handleCheckboxesAnswers = function () {
+        var checkboxes = this.elementRef.nativeElement.getElementsByClassName('checkboxes');
+        var checkboxesIndex = 0;
+        //loop through all questions
+        for (var i = 0; i < this.quizToDisplay[0].questions.length; i++) {
+            //if question is checkboxes
+            if (this.quizToDisplay[0].questions[i].types == "Checkboxes") {
+                var isCorrect = true;
+                for (var j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++) {
+                    if (checkboxes[checkboxesIndex].checked == false && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Correct') {
+                        isCorrect = false;
+                    }
+                    if (checkboxes[checkboxesIndex].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Incorrect') {
+                        isCorrect = false;
+                    }
+                    checkboxesIndex++;
+                }
+                if (isCorrect == true) {
+                    this.correctAnswerCheckboxes[i] = 'Correct';
+                }
+                else {
+                    this.correctAnswerCheckboxes[i] = 'Incorrect';
                 }
             }
         }
@@ -80,7 +108,8 @@ var QuizComponent = (function () {
     };
     QuizComponent.prototype.submitAnswer = function () {
         this.submitted = true;
-        this.handleMultiplechoiceAnswer();
+        this.handleMultiplechoiceAnswers();
+        this.handleCheckboxesAnswers();
     };
     QuizComponent = __decorate([
         core_1.Component({

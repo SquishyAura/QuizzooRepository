@@ -21,10 +21,10 @@ io.on('connect', function (socket) {
 	registrationVerify(socket);
 
 	insertQuiz(socket);
-	getPublicQuizzes(socket);
-	getQuiz(socket);
 	deleteQuiz(socket);
-	getMyQuizzes(socket);
+	getPublicQuizzes(socket); //for display page
+	getQuiz(socket); //for loading a single quiz page
+	getMyQuizzes(socket); //for profile page
 });
 
 

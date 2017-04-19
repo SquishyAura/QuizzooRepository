@@ -16,8 +16,8 @@ export class QuizComponent implements OnInit, OnDestroy {
     quizToDisplay: any;
     currentUser: string;
     correctAnswerMultipleChoice: string[] = [];
+    correctAnswerCheckboxes: string[] = [];
     submitted: boolean = false;
-    test: string;
 
     timers = {'hours': 0, 'minutes': 0, 'seconds': 0}
     duration: number;
@@ -47,28 +47,63 @@ export class QuizComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/home');
     }
 
-    handleMultiplechoiceAnswer(){
-        let radiobuttons = this.elementRef.nativeElement.getElementsByClassName('answerClass');
- 
-        this.correctAnswerMultipleChoice = [];
-        let k = 0;
-        for(let i = 0; i < this.quizToDisplay[0].questions.length; i++){
+    handleMultiplechoiceAnswers(){
+        let radiobuttons = this.elementRef.nativeElement.getElementsByClassName('radiobuttons');
+        let radiobuttonIndex = 0;
+
+        //loop through all questions
+        for(let i = 0; i < this.quizToDisplay[0].questions.length; i++){ 
+
+            //if question is multiple choice
             if(this.quizToDisplay[0].questions[i].types == "Multiple-choice"){
+                
                 let isCorrect = false;
                 for(let j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++){
-                    if(radiobuttons[k].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer === 'Correct'){ 
+                    if(radiobuttons[radiobuttonIndex].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Correct'){ 
                         isCorrect = true;
                     }
-                    k++;
+                    radiobuttonIndex++;
                 }
-            if(isCorrect == true){
-                this.correctAnswerMultipleChoice.push('Correct');  
+                if(isCorrect == true){
+                    this.correctAnswerMultipleChoice[i] = 'Correct';  
+                }
+                else
+                {
+                    this.correctAnswerMultipleChoice[i] = 'Incorrect';
+                }
+            }            
+        }
+    }
+
+    handleCheckboxesAnswers(){
+        let checkboxes = this.elementRef.nativeElement.getElementsByClassName('checkboxes');
+        let checkboxesIndex = 0;
+
+        //loop through all questions
+        for(let i = 0; i < this.quizToDisplay[0].questions.length; i++){ 
+            //if question is checkboxes
+            if(this.quizToDisplay[0].questions[i].types == "Checkboxes"){
+                let isCorrect = true;
+
+                for(let j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++){  
+                    if(checkboxes[checkboxesIndex].checked == false && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Correct'){ //if user selected a correct answer, continue
+                        isCorrect = false;
+                    }
+                    if(checkboxes[checkboxesIndex].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Incorrect')
+                    {
+                        isCorrect = false;
+                    }
+                    checkboxesIndex++;
+                }
+
+                if(isCorrect == true){
+                    this.correctAnswerCheckboxes[i] = 'Correct';
+                }
+                else
+                {
+                    this.correctAnswerCheckboxes[i] = 'Incorrect';
+                }
             }
-            else
-            {
-                this.correctAnswerMultipleChoice.push('Incorrect')
-            }
-          }
         }
     }
 
@@ -89,6 +124,7 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     submitAnswer(){
         this.submitted = true;
-        this.handleMultiplechoiceAnswer();
+        this.handleMultiplechoiceAnswers();
+        this.handleCheckboxesAnswers();
     }
 }
