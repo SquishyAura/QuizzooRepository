@@ -371,3 +371,16 @@ a:hover, a:visited, a:link, a:active
     box-sizing: border-box;
 	width: 21%;
 }
+
+/* Profile page */
+.profileOwner{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 36px;
+	color: rgb(40, 40, 40);
+}
+
+.profileOwnerQuizzes{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 16px;
+	color: rgb(80, 80, 80);
+}

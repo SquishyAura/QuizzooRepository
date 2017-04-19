@@ -8,7 +8,12 @@
                     {{quiz.title}}
                 </div> 
                 <div class="quizDuration">
-                    Duration: {{quiz.duration}} minute(s)
+                    <div *ngIf="quiz.duration == 'Unlimited'">
+                        Duration: {{quiz.duration}}
+                    </div>
+                    <div *ngIf="quiz.duration != 'Unlimited'">
+                        Duration: {{quiz.duration}} minute(s)
+                    </div>
                 </div>
                 by {{quiz.owner}}
             </div>

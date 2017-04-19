@@ -18,9 +18,8 @@ var QuizComponent = (function () {
         this.quizObserverService = quizObserverService;
         this.socketService = socketService;
         this.elementRef = elementRef;
-        this.correctAnswerMultipleChoice = 'Incorrect';
+        this.correctAnswerMultipleChoice = [];
         this.submitted = false;
-        this.answersArray = [];
         this.timers = { 'hours': 0, 'minutes': 0, 'seconds': 0 };
         this.currentUser = localStorage.getItem('user');
     }
@@ -43,7 +42,26 @@ var QuizComponent = (function () {
         this.router.navigateByUrl('/home');
     };
     QuizComponent.prototype.handleMultiplechoiceAnswer = function () {
-        var rawr = this.elementRef.nativeElement.querySelectorAll('#rawr');
+        var radiobuttons = this.elementRef.nativeElement.getElementsByClassName('answerClass');
+        this.correctAnswerMultipleChoice = [];
+        var k = 0;
+        for (var i = 0; i < this.quizToDisplay[0].questions.length; i++) {
+            if (this.quizToDisplay[0].questions[i].types == "Multiple-choice") {
+                var isCorrect = false;
+                for (var j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++) {
+                    if (radiobuttons[k].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer === 'Correct') {
+                        isCorrect = true;
+                    }
+                    k++;
+                }
+                if (isCorrect == true) {
+                    this.correctAnswerMultipleChoice.push('Correct');
+                }
+                else {
+                    this.correctAnswerMultipleChoice.push('Incorrect');
+                }
+            }
+        }
     };
     QuizComponent.prototype.countdown = function () {
         var _this = this;
@@ -62,8 +80,7 @@ var QuizComponent = (function () {
     };
     QuizComponent.prototype.submitAnswer = function () {
         this.submitted = true;
-        console.log("oki");
-        //this.correctAnswerMultipleChoice = this.handleMultiplechoiceAnswer();
+        this.handleMultiplechoiceAnswer();
     };
     QuizComponent = __decorate([
         core_1.Component({

@@ -15,9 +15,9 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     quizToDisplay: any;
     currentUser: string;
-    correctAnswerMultipleChoice: string = 'Incorrect';
+    correctAnswerMultipleChoice: string[] = [];
     submitted: boolean = false;
-    answersArray: any[] = [];
+    test: string;
 
     timers = {'hours': 0, 'minutes': 0, 'seconds': 0}
     duration: number;
@@ -48,7 +48,28 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
 
     handleMultiplechoiceAnswer(){
-        let rawr = this.elementRef.nativeElement.querySelectorAll('#rawr');
+        let radiobuttons = this.elementRef.nativeElement.getElementsByClassName('answerClass');
+ 
+        this.correctAnswerMultipleChoice = [];
+        let k = 0;
+        for(let i = 0; i < this.quizToDisplay[0].questions.length; i++){
+            if(this.quizToDisplay[0].questions[i].types == "Multiple-choice"){
+                let isCorrect = false;
+                for(let j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++){
+                    if(radiobuttons[k].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer === 'Correct'){ 
+                        isCorrect = true;
+                    }
+                    k++;
+                }
+            if(isCorrect == true){
+                this.correctAnswerMultipleChoice.push('Correct');  
+            }
+            else
+            {
+                this.correctAnswerMultipleChoice.push('Incorrect')
+            }
+          }
+        }
     }
 
     countdown(){
@@ -68,7 +89,6 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     submitAnswer(){
         this.submitted = true;
-        console.log("oki");
-        //this.correctAnswerMultipleChoice = this.handleMultiplechoiceAnswer();
+        this.handleMultiplechoiceAnswer();
     }
 }
