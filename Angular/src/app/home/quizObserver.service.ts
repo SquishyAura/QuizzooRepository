@@ -40,4 +40,19 @@ export class QuizObserverService {
         })
         return observable;
     }
+
+    submitQuiz(radiobuttons: any, checkboxes: any, quizToDisplay: any){
+        var submitQuiz = {
+            radiobuttons: radiobuttons,
+            checkboxes: checkboxes,
+            quizToDisplay: quizToDisplay,
+        }
+        console.log(checkboxes);
+        let observable = new Observable((observer:any) => {
+            this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function(error: any, msg:any){
+                observer.next(msg);
+            });
+        })
+        return observable;
+    }
 }

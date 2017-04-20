@@ -42,55 +42,6 @@ var QuizComponent = (function () {
         this.socketService.socket.emit('deleteQuiz', JSON.stringify(id));
         this.router.navigateByUrl('/home');
     };
-    QuizComponent.prototype.handleMultiplechoiceAnswers = function () {
-        var radiobuttons = this.elementRef.nativeElement.getElementsByClassName('radiobuttons');
-        var radiobuttonIndex = 0;
-        //loop through all questions
-        for (var i = 0; i < this.quizToDisplay[0].questions.length; i++) {
-            //if question is multiple choice
-            if (this.quizToDisplay[0].questions[i].types == "Multiple-choice") {
-                var isCorrect = false;
-                for (var j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++) {
-                    if (radiobuttons[radiobuttonIndex].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Correct') {
-                        isCorrect = true;
-                    }
-                    radiobuttonIndex++;
-                }
-                if (isCorrect == true) {
-                    this.correctAnswerMultipleChoice[i] = 'Correct';
-                }
-                else {
-                    this.correctAnswerMultipleChoice[i] = 'Incorrect';
-                }
-            }
-        }
-    };
-    QuizComponent.prototype.handleCheckboxesAnswers = function () {
-        var checkboxes = this.elementRef.nativeElement.getElementsByClassName('checkboxes');
-        var checkboxesIndex = 0;
-        //loop through all questions
-        for (var i = 0; i < this.quizToDisplay[0].questions.length; i++) {
-            //if question is checkboxes
-            if (this.quizToDisplay[0].questions[i].types == "Checkboxes") {
-                var isCorrect = true;
-                for (var j = 0; j < this.quizToDisplay[0].questions[i].answers.length; j++) {
-                    if (checkboxes[checkboxesIndex].checked == false && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Correct') {
-                        isCorrect = false;
-                    }
-                    if (checkboxes[checkboxesIndex].checked == true && this.quizToDisplay[0].questions[i].answers[j].correctAnswer == 'Incorrect') {
-                        isCorrect = false;
-                    }
-                    checkboxesIndex++;
-                }
-                if (isCorrect == true) {
-                    this.correctAnswerCheckboxes[i] = 'Correct';
-                }
-                else {
-                    this.correctAnswerCheckboxes[i] = 'Incorrect';
-                }
-            }
-        }
-    };
     QuizComponent.prototype.countdown = function () {
         var _this = this;
         if (this.duration > 0) {
@@ -107,9 +58,24 @@ var QuizComponent = (function () {
         }
     };
     QuizComponent.prototype.submitAnswer = function () {
+        var _this = this;
+        var radiobuttons = this.elementRef.nativeElement.getElementsByClassName('radiobuttons');
+        var checkboxes = this.elementRef.nativeElement.getElementsByClassName('checkboxes');
+        var radiobuttonsCheck = [];
+        var checkboxesCheck = [];
+        for (var i = 0; i < radiobuttons.length; i++) {
+            radiobuttonsCheck.push(radiobuttons[i].checked);
+        }
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxesCheck.push(checkboxes[i].checked);
+        }
+        this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay).subscribe(function (data) {
+            _this.correctAnswerMultipleChoice = data.correctAnswerMultipleChoice;
+            _this.correctAnswerCheckboxes = data.correctAnswerCheckboxes;
+        });
         this.submitted = true;
-        this.handleMultiplechoiceAnswers();
-        this.handleCheckboxesAnswers();
+        //this.handleMultiplechoiceAnswers();
+        //this.handleCheckboxesAnswers();
     };
     QuizComponent = __decorate([
         core_1.Component({

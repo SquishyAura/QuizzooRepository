@@ -47,6 +47,21 @@ var QuizObserverService = (function () {
         });
         return observable;
     };
+    QuizObserverService.prototype.submitQuiz = function (radiobuttons, checkboxes, quizToDisplay) {
+        var _this = this;
+        var submitQuiz = {
+            radiobuttons: radiobuttons,
+            checkboxes: checkboxes,
+            quizToDisplay: quizToDisplay,
+        };
+        console.log(checkboxes);
+        var observable = new Observable_1.Observable(function (observer) {
+            _this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function (error, msg) {
+                observer.next(msg);
+            });
+        });
+        return observable;
+    };
     QuizObserverService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [socket_service_1.SocketService])
