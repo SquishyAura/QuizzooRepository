@@ -139,26 +139,43 @@ insertDocument = function(document){
         .then(() => queryCollection())
 }
 
-updateNumberOfClicks = function(id, storedProcedureArray){
+updateStatistics = function(id, storedProcedureArray, cleanedJoinedFeedbackArray, currentUser){
     console.log(storedProcedureArray);
-    //console.log(storedProcedureArray[0].split(" ")[2])
     client.queryDocuments(collectionUrl, 'SELECT * FROM quizzes q WHERE q.id = "' + id +'"').toArray((err, results) => { //we first get quiz
         if (err) { 
             console.log(err);
         }
         else {
-            console.log(results[0]);
-            for(var i = 0; i < storedProcedureArray.length; i++){
-                var splittedArray = storedProcedureArray[i].split(" ");
-                if(splittedArray[2] == "selected"){
-                    var incremented = parseInt(results[0].questions[splittedArray[0]].answers[splittedArray[1]].numberOfClicks) + 1;
-                    results[0].questions[splittedArray[0]].answers[splittedArray[1]].numberOfClicks = incremented.toString();
-                }
-            }
-            
+            updateNumberOfClicks(results, storedProcedureArray);
+            updateIndividualFeedback(results, cleanedJoinedFeedbackArray, currentUser);
             replaceQuizDocument(results[0]);
         }
     });
+}
+
+updateNumberOfClicks = function(results, storedProcedureArray){
+    for(var i = 0; i < storedProcedureArray.length; i++){
+        var splittedArray = storedProcedureArray[i].split(" ");
+        if(splittedArray[2] == "selected"){
+            var incremented = parseInt(results[0].questions[splittedArray[0]].answers[splittedArray[1]].numberOfClicks) + 1;
+            results[0].questions[splittedArray[0]].answers[splittedArray[1]].numberOfClicks = incremented.toString();
+        }
+    }
+}
+
+updateIndividualFeedback = function(results, cleanedJoinedFeedbackArray, currentUser){
+    var feedbackString = currentUser + " answered ";
+    for(var i = 0; i < cleanedJoinedFeedbackArray.length; i++){
+        feedbackString = feedbackString + "question " + (i + 1) + " " + cleanedJoinedFeedbackArray[i];
+        if(i == cleanedJoinedFeedbackArray.length - 1){ //if end of array (sentence)
+            feedbackString = feedbackString + ".";
+        }
+        else
+        {
+            feedbackString = feedbackString + ", ";
+        }
+    }
+    results[0].individualFeedback.push(feedbackString);
 }
 
 getPublicQuizzes = function(socket){

@@ -83,7 +83,7 @@ export class QuizComponent implements OnInit, OnDestroy {
             checkboxesCheck.push(checkboxes[i].checked);
         }
 
-        this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay).subscribe((data: any) => {
+        this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay, this.currentUser).subscribe((data: any) => {
             this.feedbackArray = data.feedbackArray;
             this.submitted = true;
         });

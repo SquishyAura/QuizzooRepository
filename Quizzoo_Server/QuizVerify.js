@@ -18,8 +18,8 @@ submitQuiz = function(socket){
         var multipleChoiceArray = handleMultiplechoiceAnswers(incomingMsg.radiobuttons, incomingMsg.quizToDisplay, storedProcedureArray);
         var checkboxesArray = handleCheckboxesAnswers(incomingMsg.checkboxes, incomingMsg.quizToDisplay, storedProcedureArray);
         var cleanedJoinedFeedbackArray = removeEmptyElementsInArray(multipleChoiceArray, checkboxesArray);
-
-        updateNumberOfClicks(incomingMsg.quizToDisplay[0].id, storedProcedureArray);
+        console.log(cleanedJoinedFeedbackArray);
+        updateStatistics(incomingMsg.quizToDisplay[0].id, storedProcedureArray, cleanedJoinedFeedbackArray, incomingMsg.currentUser);
 
         var returnSubmittedQuiz = {
             feedbackArray: cleanedJoinedFeedbackArray,
@@ -44,8 +44,9 @@ function handleMultiplechoiceAnswers(radiobuttons, quizToDisplay, storedProcedur
                         isCorrect = false;
                     }
 
-                    if(radiobuttons[radiobuttonIndex] == true){
-                        //updateNumberOfClicks(quizToDisplay[i].id, j, k);
+                    //we save all selected answers and add them to database at once, for the statistics page. 
+                    if(radiobuttons[radiobuttonIndex] == true)
+                    {
                         storedProcedureArray.push(j + " " + k + " selected");
                     }
                     else
@@ -105,8 +106,9 @@ function handleCheckboxesAnswers(checkboxes, quizToDisplay, storedProcedureArray
                         checkboxesIndexGoingBackwards--;
                     }
 
-                    if(checkboxes[checkboxesIndex] == true){
-                        //updateNumberOfClicks(quizToDisplay[i].id, j, k);
+                    //we save all selected answers and add them to database at once, for the statistics page. 
+                    if(checkboxes[checkboxesIndex] == true)
+                    {
                         storedProcedureArray.push(j + " " + k + " selected");
                     }
                     else

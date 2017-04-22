@@ -50,11 +50,12 @@ export class QuizObserverService {
         return observable;
     }
 
-    submitQuiz(radiobuttons: any, checkboxes: any, quizToDisplay: any){
+    submitQuiz(radiobuttons: any, checkboxes: any, quizToDisplay: any, currentUser: string){
         var submitQuiz = {
             radiobuttons: radiobuttons,
             checkboxes: checkboxes,
             quizToDisplay: quizToDisplay,
+            currentUser: currentUser
         }
 
         let observable = new Observable((observer:any) => {

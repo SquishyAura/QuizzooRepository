@@ -56,6 +56,7 @@ export class TemplateComponent implements OnInit { name = 'Angular';
             owner: localStorage.getItem('user'),
             access: ['', [Validators.required, Validators.minLength(1)]],
             duration: ['', [Validators.required, Validators.minLength(1)]],
+            individualFeedback: this.formBuilder.array([]),
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),

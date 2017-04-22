@@ -6,7 +6,7 @@
         <!-- Quiz questions -->
         <div *ngFor="let quizQuestions of quiz.questions; let i=index" align="center">
             <div class="Question-panel-title" style="padding: 10px; word-wrap: break-word;">
-                Question {{i + 1}}: {{quizQuestions.questionText}}
+                <b>Question {{i + 1}}:</b> {{quizQuestions.questionText}}
             </div>
 
             <!-- Quiz answers -->
@@ -17,7 +17,7 @@
                             
                             <div class="loadingBarContent" [style.width.%]="quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.0-0'"></div>
                             
-                            {{quizAnswers.answerText}} <br/> 
+                            <b>{{j + 1}}:</b> {{quizAnswers.answerText}} <br/> 
                             <div *ngIf="combinedAnswers[i] != 0"> <!-- we may not divide by 0-->
                                 {{quizAnswers.numberOfClicks}} ({{quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.2-2' }}%) chose this answer.
                             </div>
@@ -34,7 +34,7 @@
                             
                             <div class="loadingBarContent" [style.width.%]="quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.0-0'"></div>
 
-                            {{quizAnswers.answerText}} <br/> 
+                            <b>{{j + 1}}:</b> {{quizAnswers.answerText}} <br/> 
                             <div *ngIf="combinedAnswers[i] != 0"> <!-- we may not divide by 0-->
                                 {{quizAnswers.numberOfClicks}} ({{quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.2-2' }}%) chose this answer.
                             </div>
@@ -46,5 +46,11 @@
                 </div>
             </div><br/>
         </div>
+
+        <div *ngFor="let quiz of statisticsToDisplay">
+            <div *ngFor="let feedback of quiz.individualFeedback">
+                <li>{{feedback}}</li><br/>
+            </div>
+        </div><br/>
     </div>
 </table>

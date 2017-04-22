@@ -73,7 +73,7 @@ var QuizComponent = (function () {
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxesCheck.push(checkboxes[i].checked);
         }
-        this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay).subscribe(function (data) {
+        this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay, this.currentUser).subscribe(function (data) {
             _this.feedbackArray = data.feedbackArray;
             _this.submitted = true;
         });

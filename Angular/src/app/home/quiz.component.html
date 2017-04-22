@@ -26,15 +26,15 @@
         <!-- Quiz questions -->
         <div *ngFor="let quizQuestions of quiz.questions; let i=index" align="center">
             <div class="Question-panel-title" style="padding: 10px; word-wrap: break-word;">
-                Question {{i + 1}}: {{quizQuestions.questionText}}
+                <b>Question {{i + 1}}:</b> {{quizQuestions.questionText}}
             </div>
 
             <!-- Quiz answers -->
             <div class="Question-panel-content" style="padding: 5px; word-wrap: break-word;">
                 <div *ngIf="quizQuestions.types == 'Multiple-choice'" >
                     <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index">
-                        <input type="radio" class="radiobuttons" name="{{i}}" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted" checked="checked">
-                        {{quizAnswers.answerText}}
+                        <input type="radio" class="radiobuttons" name="{{i}}" [disabled]="submitted" checked="checked">
+                        <b>{{j + 1}}:</b> {{quizAnswers.answerText}}
                     </div> 
                     <div *ngIf="submitted == true">
                         Your answer is {{feedbackArray[i]}}
@@ -42,9 +42,9 @@
                 </div>
             
                 <div *ngIf="quizQuestions.types == 'Checkboxes'">
-                    <div *ngFor="let quizAnswers of quizQuestions.answers; let i=index">
-                        <input type="checkbox" class="checkboxes" name="{{i}}" value="{{quizAnswers.correctAnswer}}" [disabled]="submitted">
-                        {{quizAnswers.answerText}}    
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index">
+                        <input type="checkbox" class="checkboxes" name="{{i}}" [disabled]="submitted">
+                        <b>{{j + 1}}:</b> {{quizAnswers.answerText}}    
                     </div>
                     <div *ngIf="submitted == true">
                         Your answer is {{feedbackArray[i]}}

@@ -56,12 +56,13 @@ var QuizObserverService = (function () {
         });
         return observable;
     };
-    QuizObserverService.prototype.submitQuiz = function (radiobuttons, checkboxes, quizToDisplay) {
+    QuizObserverService.prototype.submitQuiz = function (radiobuttons, checkboxes, quizToDisplay, currentUser) {
         var _this = this;
         var submitQuiz = {
             radiobuttons: radiobuttons,
             checkboxes: checkboxes,
             quizToDisplay: quizToDisplay,
+            currentUser: currentUser
         };
         var observable = new Observable_1.Observable(function (observer) {
             _this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function (error, msg) {
