@@ -37,7 +37,7 @@
                         {{quizAnswers.answerText}}
                     </div> 
                     <div *ngIf="submitted == true">
-                        Your answer is {{correctAnswerMultipleChoice[i]}}
+                        Your answer is {{feedbackArray[i]}}
                     </div> 
                 </div>
             
@@ -47,13 +47,13 @@
                         {{quizAnswers.answerText}}    
                     </div>
                     <div *ngIf="submitted == true">
-                        Your answer is {{correctAnswerCheckboxes[i]}}
+                        Your answer is {{feedbackArray[i]}}
                     </div>
                 </div>
             </div><br/>
         </div>
         <input type="submit" value="Submit" (click)="submitAnswer()" [disabled]="submitted">
-        <input type="submit" value="View Statistics">
+        <input type="submit" value="View Statistics" (click)="routeToStatisticsPage()">
         <div *ngIf="quiz.owner == currentUser">
             <input type="submit" value="Delete Quiz" (click)="deleteQuiz(quiz.id)">
         </div>

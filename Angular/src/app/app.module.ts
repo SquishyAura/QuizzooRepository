@@ -13,6 +13,7 @@ import { QuestionComponent } from './template/question.component';
 import { AnswerComponent } from './template/answer.component'; 
 import { QuizComponent } from './home/quiz.component';
 import { ProfileComponent } from './profile/profile.component';
+import { QuizStatisticsComponent } from './home/quizStatistics.component';
 
 import { SocketService } from './global/socket.service';
 import { AuthService } from './global/auth.service';
@@ -31,6 +32,7 @@ import { QuizObserverService } from './home/quizObserver.service';
                    { path: 'template', component: TemplateComponent, canActivate: [AuthService]},
                    { path: 'home/quiz/:id', component: QuizComponent, canActivate: [AuthService]},
                    { path: 'profile', component: ProfileComponent, canActivate: [AuthService]},
+                   { path: 'home/quiz/:id/statistics', component: QuizStatisticsComponent, canActivate: [AuthService]},
                 ])
   ],
   declarations: [ AppComponent,
@@ -43,6 +45,7 @@ import { QuizObserverService } from './home/quizObserver.service';
                   AnswerComponent,
                   QuizComponent,
                   ProfileComponent,
+                  QuizStatisticsComponent,
                 ],
   providers: [ SocketService,
                AuthService,

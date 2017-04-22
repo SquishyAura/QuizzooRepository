@@ -47,6 +47,15 @@ var QuizObserverService = (function () {
         });
         return observable;
     };
+    QuizObserverService.prototype.getQuizStatistics = function (id) {
+        var _this = this;
+        var observable = new Observable_1.Observable(function (observer) {
+            _this.socketService.socket.emit('getQuizStatistics', JSON.stringify(id.split("/")[3]), function (error, msg) {
+                observer.next(msg);
+            });
+        });
+        return observable;
+    };
     QuizObserverService.prototype.submitQuiz = function (radiobuttons, checkboxes, quizToDisplay) {
         var _this = this;
         var submitQuiz = {
@@ -54,7 +63,6 @@ var QuizObserverService = (function () {
             checkboxes: checkboxes,
             quizToDisplay: quizToDisplay,
         };
-        console.log(checkboxes);
         var observable = new Observable_1.Observable(function (observer) {
             _this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function (error, msg) {
                 observer.next(msg);

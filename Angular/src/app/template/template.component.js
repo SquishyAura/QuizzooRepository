@@ -77,6 +77,7 @@ var TemplateComponent = (function () {
         return this.formBuilder.group({
             answerText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             correctAnswer: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
+            numberOfClicks: "0",
         });
     };
     TemplateComponent.prototype.addQuestion = function () {

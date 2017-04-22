@@ -18,8 +18,7 @@ var QuizComponent = (function () {
         this.quizObserverService = quizObserverService;
         this.socketService = socketService;
         this.elementRef = elementRef;
-        this.correctAnswerMultipleChoice = [];
-        this.correctAnswerCheckboxes = [];
+        this.feedbackArray = [];
         this.submitted = false;
         this.timers = { 'hours': 0, 'minutes': 0, 'seconds': 0 };
         this.currentUser = localStorage.getItem('user');
@@ -27,7 +26,7 @@ var QuizComponent = (function () {
     QuizComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(function (data) {
-            console.log(data);
+            //console.log(data);
             _this.quizToDisplay = data;
             if (_this.quizToDisplay[0].duration != 'Unlimited') {
                 _this.duration = _this.quizToDisplay[0].duration * 60; //in seconds
@@ -49,13 +48,18 @@ var QuizComponent = (function () {
             this.timers['seconds'] = this.duration % 60;
             this.timers['minutes'] = Math.trunc((this.duration / 60) % 60);
             this.timers['hours'] = Math.trunc((this.duration / 60 / 60) % 24);
-            setTimeout(function () { if (_this.submitted == false) {
-                _this.countdown();
-            } }, 1000);
+            setTimeout(function () {
+                if (_this.submitted == false) {
+                    _this.countdown();
+                }
+            }, 1000);
         }
         else {
-            this.submitAnswer();
+            this.submitAnswer(); //submit answer if timer reached 0
         }
+    };
+    QuizComponent.prototype.routeToStatisticsPage = function () {
+        this.router.navigateByUrl(this.router.url + '/statistics');
     };
     QuizComponent.prototype.submitAnswer = function () {
         var _this = this;
@@ -70,12 +74,9 @@ var QuizComponent = (function () {
             checkboxesCheck.push(checkboxes[i].checked);
         }
         this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay).subscribe(function (data) {
-            _this.correctAnswerMultipleChoice = data.correctAnswerMultipleChoice;
-            _this.correctAnswerCheckboxes = data.correctAnswerCheckboxes;
+            _this.feedbackArray = data.feedbackArray;
+            _this.submitted = true;
         });
-        this.submitted = true;
-        //this.handleMultiplechoiceAnswers();
-        //this.handleCheckboxesAnswers();
     };
     QuizComponent = __decorate([
         core_1.Component({

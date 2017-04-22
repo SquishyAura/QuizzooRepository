@@ -22,6 +22,7 @@ var question_component_1 = require('./template/question.component');
 var answer_component_1 = require('./template/answer.component');
 var quiz_component_1 = require('./home/quiz.component');
 var profile_component_1 = require('./profile/profile.component');
+var quizStatistics_component_1 = require('./home/quizStatistics.component');
 var socket_service_1 = require('./global/socket.service');
 var auth_service_1 = require('./global/auth.service');
 var quizObserver_service_1 = require('./home/quizObserver.service');
@@ -42,6 +43,7 @@ var AppModule = (function () {
                     { path: 'template', component: template_component_1.TemplateComponent, canActivate: [auth_service_1.AuthService] },
                     { path: 'home/quiz/:id', component: quiz_component_1.QuizComponent, canActivate: [auth_service_1.AuthService] },
                     { path: 'profile', component: profile_component_1.ProfileComponent, canActivate: [auth_service_1.AuthService] },
+                    { path: 'home/quiz/:id/statistics', component: quizStatistics_component_1.QuizStatisticsComponent, canActivate: [auth_service_1.AuthService] },
                 ])
             ],
             declarations: [app_component_1.AppComponent,
@@ -54,6 +56,7 @@ var AppModule = (function () {
                 answer_component_1.AnswerComponent,
                 quiz_component_1.QuizComponent,
                 profile_component_1.ProfileComponent,
+                quizStatistics_component_1.QuizStatisticsComponent,
             ],
             providers: [socket_service_1.SocketService,
                 auth_service_1.AuthService,

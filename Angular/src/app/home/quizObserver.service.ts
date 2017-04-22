@@ -32,9 +32,18 @@ export class QuizObserverService {
         return observable;
     }
 
-    getMyQuizzes(currentUser: string){ //gets and displays the logged in person's quizzes
+    getMyQuizzes(currentUser: string){ //gets and displays the logged in person's quizzes on their profile
         let observable = new Observable((observer:any) => {
             this.socketService.socket.emit('getMyQuizzes', JSON.stringify(currentUser), function(error: any, msg: any) { //callback. We send an empty message (null)
+                observer.next(msg);
+            });
+        })
+        return observable;
+    }
+
+    getQuizStatistics(id: string){
+        let observable = new Observable((observer:any) => {
+            this.socketService.socket.emit('getQuizStatistics', JSON.stringify(id.split("/")[3]), function(error: any, msg: any) { //callback. We send an empty message (null)
                 observer.next(msg);
             });
         })
@@ -47,7 +56,7 @@ export class QuizObserverService {
             checkboxes: checkboxes,
             quizToDisplay: quizToDisplay,
         }
-        console.log(checkboxes);
+
         let observable = new Observable((observer:any) => {
             this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function(error: any, msg:any){
                 observer.next(msg);

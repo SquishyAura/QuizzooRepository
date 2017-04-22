@@ -78,6 +78,7 @@ export class TemplateComponent implements OnInit { name = 'Angular';
         return this.formBuilder.group({
             answerText: ['', [Validators.required, Validators.minLength(1)]],
             correctAnswer: ['', [Validators.required, Validators.minLength(1)]],
+            numberOfClicks: "0",
         });
     }
 

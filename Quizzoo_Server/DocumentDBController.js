@@ -118,29 +118,13 @@ function queryCollection() {
  */
 function replaceQuizDocument(document) {
     let documentUrl = `${collectionUrl}/docs/${document.id}`;
-    console.log(`Replacing document:\n${document.id}\n`);
-    document.children[0].grade = 6;
+    console.log("replacing");
 
     return new Promise((resolve, reject) => {
         client.replaceDocument(documentUrl, document, (err, result) => {
-            if (err) reject(err);
-            else {
-                resolve(result);
-            }
-        });
-    });
-};
-
-/**
- * Delete the document by ID.
- */
-function deleteQuizDocument(document) {
-    let documentUrl = `${collectionUrl}/docs/${document.id}`;
-    console.log(`Deleting document:\n${document.id}\n`);
-
-    return new Promise((resolve, reject) => {
-        client.deleteDocument(documentUrl, (err, result) => {
-            if (err) reject(err);
+            if (err) {
+                reject(err);
+            } 
             else {
                 resolve(result);
             }
@@ -155,6 +139,28 @@ insertDocument = function(document){
         .then(() => queryCollection())
 }
 
+updateNumberOfClicks = function(id, storedProcedureArray){
+    console.log(storedProcedureArray);
+    //console.log(storedProcedureArray[0].split(" ")[2])
+    client.queryDocuments(collectionUrl, 'SELECT * FROM quizzes q WHERE q.id = "' + id +'"').toArray((err, results) => { //we first get quiz
+        if (err) { 
+            console.log(err);
+        }
+        else {
+            console.log(results[0]);
+            for(var i = 0; i < storedProcedureArray.length; i++){
+                var splittedArray = storedProcedureArray[i].split(" ");
+                if(splittedArray[2] == "selected"){
+                    var incremented = parseInt(results[0].questions[splittedArray[0]].answers[splittedArray[1]].numberOfClicks) + 1;
+                    results[0].questions[splittedArray[0]].answers[splittedArray[1]].numberOfClicks = incremented.toString();
+                }
+            }
+            
+            replaceQuizDocument(results[0]);
+        }
+    });
+}
+
 getPublicQuizzes = function(socket){
     socket.on('getPublicQuizzes', function(data, callback) {
         client.queryDocuments(
@@ -162,7 +168,7 @@ getPublicQuizzes = function(socket){
             'SELECT * FROM quizzes q WHERE q.access = "Public"'
         ).toArray((err, results) => {
             if (err) { 
-                console.log(err) ;
+                console.log(err);
             }
             else {
                 /*for (var queryResult of results) {
@@ -184,13 +190,26 @@ getQuiz = function(socket){
             'SELECT * FROM quizzes q WHERE q.id = "' + id[3] +'"'
         ).toArray((err, results) => {
             if (err) { 
-                console.log(err) ;
+                console.log(err);
             }
             else {
-                /*for (var queryResult of results) {
-                    let resultString = JSON.stringify(queryResult);
-                    console.log(`\tQuery returned ${resultString}`);
-                }*/
+                callback('error', results)
+            }
+        });
+    })
+}
+
+getQuizStatistics = function(socket){
+    socket.on('getQuizStatistics', function(data, callback) {
+        let incomingMessage = JSON.parse(data);
+        client.queryDocuments(
+            collectionUrl,
+            'SELECT * FROM quizzes q WHERE q.id = "' + incomingMessage +'"'
+        ).toArray((err, results) => {
+            if (err) { 
+                console.log(err);
+            }
+            else {
                 callback('error', results)
             }
         });

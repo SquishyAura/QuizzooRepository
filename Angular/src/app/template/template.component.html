@@ -1,6 +1,5 @@
-<table class=pageTable align="center">
-    <h1> hej </h1>
-    <form [formGroup]="myForm" novalidate (ngSubmit)="save()" align=center>
+<table class="pageTable" align="center">
+    <form [formGroup]="myForm" novalidate (ngSubmit)="save()" align="center">
         <input type="submit" value="Submit Quiz" class="btn btn-primary" [disabled]="!myForm.valid" (click)="emitQuiz()">
         <!-- Quiz Information -->
         <div class="form-group">

@@ -1,0 +1,50 @@
+<table class="pageTable" align="center">
+    <div *ngFor="let quiz of statisticsToDisplay"><br/>
+        <!-- Quiz title -->
+        <span class="quizTitle">Statistics of "{{quiz.title}}"</span> <br/><br/>
+
+        <!-- Quiz questions -->
+        <div *ngFor="let quizQuestions of quiz.questions; let i=index" align="center">
+            <div class="Question-panel-title" style="padding: 10px; word-wrap: break-word;">
+                Question {{i + 1}}: {{quizQuestions.questionText}}
+            </div>
+
+            <!-- Quiz answers -->
+            <div class="Question-panel-content" style="padding: 5px; word-wrap: break-word;">
+                <div *ngIf="quizQuestions.types == 'Multiple-choice'" >
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index">
+                        <div class="loadingBarBorder">
+                            
+                            <div class="loadingBarContent" [style.width.%]="quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.0-0'"></div>
+                            
+                            {{quizAnswers.answerText}} <br/> 
+                            <div *ngIf="combinedAnswers[i] != 0"> <!-- we may not divide by 0-->
+                                {{quizAnswers.numberOfClicks}} ({{quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.2-2' }}%) chose this answer.
+                            </div>
+                            <div *ngIf="combinedAnswers[i] == 0">
+                                {{quizAnswers.numberOfClicks}} (0.00%) chose this answer.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div *ngIf="quizQuestions.types == 'Checkboxes'">
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index">
+                        <div class="loadingBarBorder">
+                            
+                            <div class="loadingBarContent" [style.width.%]="quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.0-0'"></div>
+
+                            {{quizAnswers.answerText}} <br/> 
+                            <div *ngIf="combinedAnswers[i] != 0"> <!-- we may not divide by 0-->
+                                {{quizAnswers.numberOfClicks}} ({{quizAnswers.numberOfClicks / combinedAnswers[i] * 100 | number : '1.2-2' }}%) chose this answer.
+                            </div>
+                            <div *ngIf="combinedAnswers[i] == 0">
+                                {{quizAnswers.numberOfClicks}} (0.00%) chose this answer.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br/>
+        </div>
+    </div>
+</table>

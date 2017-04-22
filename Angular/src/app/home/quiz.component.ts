@@ -15,8 +15,7 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     quizToDisplay: any;
     currentUser: string;
-    correctAnswerMultipleChoice: string[] = [];
-    correctAnswerCheckboxes: string[] = [];
+    feedbackArray: string[] = [];
     submitted: boolean = false;
 
     timers = {'hours': 0, 'minutes': 0, 'seconds': 0}
@@ -29,7 +28,7 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(data => { //subscribes to service & gets JSON upon page load
-            console.log(data);
+            //console.log(data);
             this.quizToDisplay = data;
             if(this.quizToDisplay[0].duration != 'Unlimited'){ //if quiz duration isn't unlimited, the timer is run.
                 this.duration = this.quizToDisplay[0].duration * 60; //in seconds
@@ -54,12 +53,20 @@ export class QuizComponent implements OnInit, OnDestroy {
             this.timers['minutes'] = Math.trunc((this.duration / 60) % 60);
             this.timers['hours'] = Math.trunc((this.duration / 60 / 60 ) % 24);
             
-            setTimeout(() => { if(this.submitted == false){ this.countdown(); }}, 1000);
+            setTimeout(() => { //if user still hasn't submitted, timer contiously decrements 
+                if(this.submitted == false){ 
+                    this.countdown(); 
+                }
+            }, 1000);
         }
         else
         {
-            this.submitAnswer();
+            this.submitAnswer(); //submit answer if timer reached 0
         }
+    }
+
+    routeToStatisticsPage(){
+        this.router.navigateByUrl(this.router.url + '/statistics');
     }
 
     submitAnswer(){
@@ -77,12 +84,8 @@ export class QuizComponent implements OnInit, OnDestroy {
         }
 
         this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay).subscribe((data: any) => {
-            this.correctAnswerMultipleChoice = data.correctAnswerMultipleChoice;
-            this.correctAnswerCheckboxes = data.correctAnswerCheckboxes;
+            this.feedbackArray = data.feedbackArray;
+            this.submitted = true;
         });
-
-        this.submitted = true;
-        //this.handleMultiplechoiceAnswers();
-        //this.handleCheckboxesAnswers();
     }
 }

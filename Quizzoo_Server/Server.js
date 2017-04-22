@@ -25,7 +25,8 @@ io.on('connect', function (socket) {
 	getPublicQuizzes(socket); //for display page
 	getQuiz(socket); //for loading a single quiz page
 	getMyQuizzes(socket); //for profile page
-	submitQuiz(socket);
+	getQuizStatistics(socket);
+	submitQuiz(socket); //submit user's answers, then server checks if answers are correct or incorrect
 });
 
 
