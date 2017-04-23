@@ -14,16 +14,33 @@ var HomeComponent = (function () {
     function HomeComponent(quizObserverService) {
         this.quizObserverService = quizObserverService;
         this.quizzesToDisplay = [];
+        this.quizAverage = [];
         console.log("Logged in as " + localStorage.getItem('user'));
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service = this.quizObserverService.getPublicQuizzes().subscribe(function (data) {
             _this.quizzesToDisplay = data;
+            //calculate average rating of each quiz
+            for (var i = 0; i < _this.quizzesToDisplay.length; i++) {
+                var sum = 0;
+                if (_this.quizzesToDisplay[i].ratings.length == 0) {
+                    _this.quizAverage[i] = "Not rated yet.";
+                }
+                else {
+                    for (var j = 0; j < _this.quizzesToDisplay[i].ratings.length; j++) {
+                        sum = sum + _this.quizzesToDisplay[i].ratings[j];
+                    }
+                    var average = sum / _this.quizzesToDisplay[i].ratings.length;
+                    _this.quizAverage[i] = Math.round(average * 10) / 10; //max 1 decimal
+                }
+            }
         });
     };
     HomeComponent.prototype.ngOnDestroy = function () {
         this.service.unsubscribe();
+    };
+    HomeComponent.prototype.calculateAverageRating = function (ratings) {
     };
     HomeComponent = __decorate([
         core_1.Component({

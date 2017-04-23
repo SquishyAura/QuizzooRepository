@@ -27,6 +27,7 @@ io.on('connect', function (socket) {
 	getMyQuizzes(socket); //for profile page
 	getQuizStatistics(socket);
 	submitQuiz(socket); //submit user's answers, then server checks if answers are correct or incorrect
+	submitRating(socket); //submit user's ratings.
 });
 
 

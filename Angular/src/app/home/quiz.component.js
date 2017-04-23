@@ -61,6 +61,35 @@ var QuizComponent = (function () {
     QuizComponent.prototype.routeToStatisticsPage = function () {
         this.router.navigateByUrl(this.router.url + '/statistics');
     };
+    QuizComponent.prototype.showQuizRating = function () {
+        var quizPanel = this.elementRef.nativeElement.querySelector('.quizRatingPanel');
+        quizPanel.style.opacity = 1;
+        quizPanel.style.pointerEvents = "auto";
+        var quizBackground = this.elementRef.nativeElement.querySelector('.quizRatingBackground');
+        quizBackground.style.opacity = 0.7;
+        quizBackground.style.pointerEvents = "auto";
+    };
+    QuizComponent.prototype.closeQuizRating = function () {
+        var quizPanel = this.elementRef.nativeElement.querySelector('.quizRatingPanel');
+        quizPanel.style.opacity = 0;
+        quizPanel.style.pointerEvents = "none";
+        var quizBackground = this.elementRef.nativeElement.querySelector('.quizRatingBackground');
+        quizBackground.style.opacity = 0;
+        quizBackground.style.pointerEvents = "none";
+    };
+    QuizComponent.prototype.submitQuizRating = function (value) {
+        var ratings = this.elementRef.nativeElement.getElementsByClassName('ratings');
+        var ratingsCheck = [];
+        for (var i = 0; i < ratings.length; i++) {
+            ratingsCheck.push(ratings[i].checked);
+        }
+        var storeRating = {
+            ratingsCheck: ratingsCheck,
+            id: this.router.url.split("/")[3]
+        };
+        this.socketService.socket.emit('rating', JSON.stringify(storeRating));
+        this.closeQuizRating();
+    };
     QuizComponent.prototype.submitAnswer = function () {
         var _this = this;
         var radiobuttons = this.elementRef.nativeElement.getElementsByClassName('radiobuttons');

@@ -24,7 +24,7 @@
         <br/>
         
         <!-- Quiz questions -->
-        <div *ngFor="let quizQuestions of quiz.questions; let i=index" align="center">
+        <div *ngFor="let quizQuestions of quiz.questions; let i=index" align="center" class="quizQuestions" style="padding: 10px">
             <div class="Question-panel-title" style="padding: 10px; word-wrap: break-word;">
                 <b>Question {{i + 1}}:</b> {{quizQuestions.questionText}}
             </div>
@@ -32,7 +32,7 @@
             <!-- Quiz answers -->
             <div class="Question-panel-content" style="padding: 5px; word-wrap: break-word;">
                 <div *ngIf="quizQuestions.types == 'Multiple-choice'" >
-                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index">
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index" class="quizAnswersRadiobuttons">
                         <input type="radio" class="radiobuttons" name="{{i}}" [disabled]="submitted" checked="checked">
                         <b>{{j + 1}}:</b> {{quizAnswers.answerText}}
                     </div> 
@@ -42,7 +42,7 @@
                 </div>
             
                 <div *ngIf="quizQuestions.types == 'Checkboxes'">
-                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index">
+                    <div *ngFor="let quizAnswers of quizQuestions.answers; let j=index" class="quizAnswersCheckboxes">
                         <input type="checkbox" class="checkboxes" name="{{i}}" [disabled]="submitted">
                         <b>{{j + 1}}:</b> {{quizAnswers.answerText}}    
                     </div>
@@ -50,12 +50,29 @@
                         Your answer is {{feedbackArray[i]}}
                     </div>
                 </div>
-            </div><br/>
-        </div>
+            </div>
+        </div><br/>
         <input type="submit" value="Submit" (click)="submitAnswer()" [disabled]="submitted">
+        <input type="submit" value="Rate Quiz" (click)="showQuizRating()">
         <input type="submit" value="View Statistics" (click)="routeToStatisticsPage()">
         <div *ngIf="quiz.owner == currentUser">
             <input type="submit" value="Delete Quiz" (click)="deleteQuiz(quiz.id)">
         </div>
     </div>
 </table>
+
+<!-- Quiz rating -->
+<div class="quizRatingPanel">
+   <span class="quizRatingText">Rate the quiz.</span><br/>
+   <span>___________________________</span><br/><br/>
+   <input type="radio" class="ratings" name="rating"> <span class="starRatingText">1-star</span>
+   <input type="radio" class="ratings" name="rating"> <span class="starRatingText">2-stars</span>
+   <input type="radio" class="ratings" name="rating"> <span class="starRatingText">3-stars</span>
+   <input type="radio" class="ratings" name="rating"> <span class="starRatingText">4-stars</span>
+   <input type="radio" class="ratings" name="rating" checked="checked"> <span class="starRatingText">5-stars</span>
+   
+   <br/>
+   <input type="submit" value="Rate" (click)="submitQuizRating()">
+   <input type="submit" value="Cancel" (click)="closeQuizRating()">
+</div>
+<div class="quizRatingBackground"></div>

@@ -69,6 +69,43 @@ export class QuizComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(this.router.url + '/statistics');
     }
 
+    showQuizRating(){
+        let quizPanel = this.elementRef.nativeElement.querySelector('.quizRatingPanel');
+        quizPanel.style.opacity = 1; 
+        quizPanel.style.pointerEvents = "auto";
+
+        let quizBackground = this.elementRef.nativeElement.querySelector('.quizRatingBackground');
+        quizBackground.style.opacity = 0.7;
+        quizBackground.style.pointerEvents = "auto";
+    }
+
+    closeQuizRating(){
+        let quizPanel = this.elementRef.nativeElement.querySelector('.quizRatingPanel');
+        quizPanel.style.opacity = 0; 
+        quizPanel.style.pointerEvents = "none";
+
+        let quizBackground = this.elementRef.nativeElement.querySelector('.quizRatingBackground');
+        quizBackground.style.opacity = 0;
+        quizBackground.style.pointerEvents = "none";
+    }
+
+    submitQuizRating(value: any){
+        let ratings = this.elementRef.nativeElement.getElementsByClassName('ratings');
+        let ratingsCheck = [];
+
+        for(let i = 0; i < ratings.length; i++){
+            ratingsCheck.push(ratings[i].checked);
+        }
+        
+        let storeRating = {
+            ratingsCheck: ratingsCheck,
+            id: this.router.url.split("/")[3]
+        }
+
+        this.socketService.socket.emit('rating', JSON.stringify(storeRating));
+        this.closeQuizRating();
+    }
+
     submitAnswer(){
         let radiobuttons = this.elementRef.nativeElement.getElementsByClassName('radiobuttons');
         let checkboxes = this.elementRef.nativeElement.getElementsByClassName('checkboxes');

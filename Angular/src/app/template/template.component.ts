@@ -57,6 +57,7 @@ export class TemplateComponent implements OnInit { name = 'Angular';
             access: ['', [Validators.required, Validators.minLength(1)]],
             duration: ['', [Validators.required, Validators.minLength(1)]],
             individualFeedback: this.formBuilder.array([]),
+            ratings: this.formBuilder.array([]),
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),

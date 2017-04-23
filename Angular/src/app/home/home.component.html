@@ -1,12 +1,14 @@
 <table class="pageTable" align="center">
     <a routerLink="/template"><input type="submit" value="Create Quiz"></a>
 
-    <div *ngFor="let quiz of quizzesToDisplay"><br/>
+    <div *ngFor="let quiz of quizzesToDisplay let i=index"><br/>
         <a routerLink="/home/quiz/{{quiz.id}}">
             <div class="quizWhole" align="right">
+                
                 <div class="quizTitle">
                     {{quiz.title}}
                 </div> 
+                
                 <div class="quizDuration">
                     <div *ngIf="quiz.duration == 'Unlimited'">
                         Duration: {{quiz.duration}}
@@ -16,6 +18,13 @@
                     </div>
                 </div>
                 by {{quiz.owner}}
+                
+                <div *ngIf="quizAverage[i] == 'Not rated yet.'">
+                    Rating: {{quizAverage[i]}}
+                </div>
+                <div *ngIf="quizAverage[i] != 'Not rated yet.'">
+                    Rating: {{quizAverage[i]}}/5
+                </div>
             </div>
         </a>
     </div>

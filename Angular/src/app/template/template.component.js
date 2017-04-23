@@ -58,6 +58,7 @@ var TemplateComponent = (function () {
             access: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             duration: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             individualFeedback: this.formBuilder.array([]),
+            ratings: this.formBuilder.array([]),
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),

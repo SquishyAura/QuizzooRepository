@@ -139,6 +139,27 @@ insertDocument = function(document){
         .then(() => queryCollection())
 }
 
+submitRating = function(socket){
+    socket.on('rating', function(msg) {
+        var incomingMsg = JSON.parse(msg);
+
+        for(var i = 0; i < incomingMsg.ratingsCheck.length; i++){
+            if(incomingMsg.ratingsCheck[i] == true){
+                let actualRating = i + 1; //since array starts at 0, we add with 1
+                client.queryDocuments(collectionUrl, 'SELECT * FROM quizzes q WHERE q.id = "' + incomingMsg.id +'"').toArray((err, results) => {
+                    if (err) { 
+                        console.log(err);
+                    }
+                    else {
+                        results[0].ratings.push(actualRating);
+                        replaceQuizDocument(results[0]);
+                    }
+                });
+            }
+        }
+    });
+}
+
 updateStatistics = function(id, storedProcedureArray, cleanedJoinedFeedbackArray, currentUser){
     console.log(storedProcedureArray);
     client.queryDocuments(collectionUrl, 'SELECT * FROM quizzes q WHERE q.id = "' + id +'"').toArray((err, results) => { //we first get quiz
