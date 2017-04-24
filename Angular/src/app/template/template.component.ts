@@ -3,6 +3,7 @@ import * as io from "socket.io-client";
 import { SocketService } from '../global/socket.service';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppComponent }  from '../app.component';
 
 @Component({
   moduleId: module.id,
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 export class TemplateComponent implements OnInit { name = 'Angular'; 
     public myForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder, private socketService: SocketService, private router: Router) { }
+    constructor(private formBuilder: FormBuilder, private socketService: SocketService, private router: Router, private app:AppComponent) { }
 
     private typesArray = [
         {option: ''},
@@ -112,5 +113,6 @@ export class TemplateComponent implements OnInit { name = 'Angular';
     emitQuiz(){
         this.socketService.socket.emit('quiz', JSON.stringify(this.save()));
         setTimeout(() => this.router.navigateByUrl('/home'), 1000);
+        this.app.popUpFade("Quiz created.");
     }
 }

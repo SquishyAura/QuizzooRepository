@@ -40,8 +40,6 @@ var HomeComponent = (function () {
     HomeComponent.prototype.ngOnDestroy = function () {
         this.service.unsubscribe();
     };
-    HomeComponent.prototype.calculateAverageRating = function (ratings) {
-    };
     HomeComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

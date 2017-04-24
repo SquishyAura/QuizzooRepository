@@ -37,7 +37,12 @@
                         <b>{{j + 1}}:</b> {{quizAnswers.answerText}}
                     </div> 
                     <div *ngIf="submitted == true">
-                        Your answer is {{feedbackArray[i]}}
+                        <div *ngIf="feedbackArray[i] == 'Correct'">
+                            <b style="color: green">Your answer is {{feedbackArray[i]}}</b>
+                        </div>
+                        <div *ngIf="feedbackArray[i] == 'Incorrect'">
+                            <b style="color: red">Your answer is {{feedbackArray[i]}}</b>
+                        </div>
                     </div> 
                 </div>
             
@@ -47,7 +52,12 @@
                         <b>{{j + 1}}:</b> {{quizAnswers.answerText}}    
                     </div>
                     <div *ngIf="submitted == true">
-                        Your answer is {{feedbackArray[i]}}
+                        <div *ngIf="feedbackArray[i] == 'Correct'">
+                            <b style="color: green">Your answer is {{feedbackArray[i]}}</b>
+                        </div>
+                        <div *ngIf="feedbackArray[i] == 'Incorrect'">
+                            <b style="color: red">Your answer is {{feedbackArray[i]}}</b>
+                        </div>
                     </div>
                 </div>
             </div>

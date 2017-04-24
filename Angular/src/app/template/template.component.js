@@ -12,11 +12,13 @@ var core_1 = require('@angular/core');
 var socket_service_1 = require('../global/socket.service');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
+var app_component_1 = require('../app.component');
 var TemplateComponent = (function () {
-    function TemplateComponent(formBuilder, socketService, router) {
+    function TemplateComponent(formBuilder, socketService, router, app) {
         this.formBuilder = formBuilder;
         this.socketService = socketService;
         this.router = router;
+        this.app = app;
         this.name = 'Angular';
         this.typesArray = [
             { option: '' },
@@ -106,6 +108,7 @@ var TemplateComponent = (function () {
         var _this = this;
         this.socketService.socket.emit('quiz', JSON.stringify(this.save()));
         setTimeout(function () { return _this.router.navigateByUrl('/home'); }, 1000);
+        this.app.popUpFade("Quiz created.");
     };
     TemplateComponent = __decorate([
         core_1.Component({
@@ -113,7 +116,7 @@ var TemplateComponent = (function () {
             selector: 'template-app',
             templateUrl: 'template.component.html',
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService, router_1.Router])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService, router_1.Router, app_component_1.AppComponent])
     ], TemplateComponent);
     return TemplateComponent;
 }());

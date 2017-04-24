@@ -38,6 +38,9 @@ var QuizStatisticsComponent = (function () {
     QuizStatisticsComponent.prototype.ngOnDestroy = function () {
         this.service.unsubscribe();
     };
+    QuizStatisticsComponent.prototype.routeBackToQuiz = function () {
+        this.router.navigateByUrl('/home/quiz/' + this.router.url.split("/")[3]);
+    };
     QuizStatisticsComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

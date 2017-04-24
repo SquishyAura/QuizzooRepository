@@ -59,7 +59,7 @@
                             </select>
                             <span class="x-button" *ngIf="question.controls.answers.controls.length > 1" (click)="removeAnswer(i, j)">x</span>
                             <br/><small *ngIf="!answer.controls.answerText.valid">
-                                Answer must be at least 4 characters.
+                                Answer must be at least 1 character.
                             </small>
                             <br/><small *ngIf="!answer.controls.correctAnswer.valid">
                                 Answer must either be correct or incorrect.

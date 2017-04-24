@@ -276,11 +276,11 @@ a:hover, a:visited, a:link, a:active
 }
 
 .quizAnswersRadiobuttons:hover{
-	background-color: gray;
+	background-color: #e5e5e5;
 }
 
 .quizAnswersCheckboxes:hover{
-	background-color: gray;
+	background-color: #e5e5e5;
 }
 
 .quizRatingPanel{
@@ -420,6 +420,10 @@ a:hover, a:visited, a:link, a:active
     border-radius: 4px;
     box-sizing: border-box;
 	width: 21%;
+}
+
+small{
+	color: red;
 }
 
 /* Profile page */

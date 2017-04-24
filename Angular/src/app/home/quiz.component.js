@@ -12,15 +12,18 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var quizObserver_service_1 = require('./quizObserver.service');
 var socket_service_1 = require('../global/socket.service');
+var app_component_1 = require('../app.component');
 var QuizComponent = (function () {
-    function QuizComponent(router, quizObserverService, socketService, elementRef) {
+    function QuizComponent(router, quizObserverService, socketService, elementRef, app) {
         this.router = router;
         this.quizObserverService = quizObserverService;
         this.socketService = socketService;
         this.elementRef = elementRef;
+        this.app = app;
         this.feedbackArray = [];
         this.submitted = false;
         this.timers = { 'hours': 0, 'minutes': 0, 'seconds': 0 };
+        this.stopTimer = false;
         this.currentUser = localStorage.getItem('user');
     }
     QuizComponent.prototype.ngOnInit = function () {
@@ -28,34 +31,40 @@ var QuizComponent = (function () {
         this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(function (data) {
             //console.log(data);
             _this.quizToDisplay = data;
-            if (_this.quizToDisplay[0].duration != 'Unlimited') {
-                _this.duration = _this.quizToDisplay[0].duration * 60; //in seconds
-                _this.countdown();
+            if (data[0].duration != 'Unlimited') {
+                _this.countdown(data[0].duration * 60);
             }
         });
     };
     QuizComponent.prototype.ngOnDestroy = function () {
         this.service.unsubscribe();
+        this.stopTimer = true;
     };
     QuizComponent.prototype.deleteQuiz = function (id) {
-        this.socketService.socket.emit('deleteQuiz', JSON.stringify(id));
-        this.router.navigateByUrl('/home');
-    };
-    QuizComponent.prototype.countdown = function () {
         var _this = this;
-        if (this.duration > 0) {
-            this.duration--;
-            this.timers['seconds'] = this.duration % 60;
-            this.timers['minutes'] = Math.trunc((this.duration / 60) % 60);
-            this.timers['hours'] = Math.trunc((this.duration / 60 / 60) % 24);
-            setTimeout(function () {
-                if (_this.submitted == false) {
-                    _this.countdown();
-                }
-            }, 1000);
-        }
-        else {
-            this.submitAnswer(); //submit answer if timer reached 0
+        this.socketService.socket.emit('deleteQuiz', JSON.stringify(id));
+        setTimeout(function () { return _this.router.navigateByUrl('/home'); }, 1000);
+        this.app.popUpFade("Quiz has been deleted.");
+    };
+    QuizComponent.prototype.countdown = function (duration) {
+        var _this = this;
+        console.log(duration);
+        if (this.stopTimer == false) {
+            if (duration > 0) {
+                duration--;
+                this.timers['seconds'] = duration % 60;
+                this.timers['minutes'] = Math.trunc((duration / 60) % 60);
+                this.timers['hours'] = Math.trunc((duration / 60 / 60) % 24);
+                setTimeout(function () {
+                    if (_this.submitted == false) {
+                        _this.countdown(duration);
+                    }
+                }, 1000);
+            }
+            else {
+                this.submitAnswer(); //submit answer if timer reached 0
+                this.app.popUpFade("Time has run out. Your answers were submitted.");
+            }
         }
     };
     QuizComponent.prototype.routeToStatisticsPage = function () {
@@ -89,6 +98,7 @@ var QuizComponent = (function () {
         };
         this.socketService.socket.emit('rating', JSON.stringify(storeRating));
         this.closeQuizRating();
+        this.app.popUpFade("Your rating has been saved.");
     };
     QuizComponent.prototype.submitAnswer = function () {
         var _this = this;
@@ -105,6 +115,7 @@ var QuizComponent = (function () {
         this.service = this.quizObserverService.submitQuiz(radiobuttonsCheck, checkboxesCheck, this.quizToDisplay, this.currentUser).subscribe(function (data) {
             _this.feedbackArray = data.feedbackArray;
             _this.submitted = true;
+            _this.app.popUpFade("Your answers have been submitted.");
         });
     };
     QuizComponent = __decorate([
@@ -113,7 +124,7 @@ var QuizComponent = (function () {
             selector: 'quiz-app',
             templateUrl: 'quiz.component.html',
         }), 
-        __metadata('design:paramtypes', [router_1.Router, quizObserver_service_1.QuizObserverService, socket_service_1.SocketService, core_1.ElementRef])
+        __metadata('design:paramtypes', [router_1.Router, quizObserver_service_1.QuizObserverService, socket_service_1.SocketService, core_1.ElementRef, app_component_1.AppComponent])
     ], QuizComponent);
     return QuizComponent;
 }());

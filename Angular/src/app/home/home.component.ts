@@ -43,8 +43,4 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.service.unsubscribe();
   }
-
-  calculateAverageRating(ratings: any){
-    
-  }
 }

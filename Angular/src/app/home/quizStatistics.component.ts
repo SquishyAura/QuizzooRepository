@@ -39,4 +39,8 @@ export class QuizStatisticsComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
       this.service.unsubscribe();
     }
+
+    routeBackToQuiz(){
+      this.router.navigateByUrl('/home/quiz/' + this.router.url.split("/")[3])
+    }
 }
