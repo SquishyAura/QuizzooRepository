@@ -48,7 +48,6 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
 
     countdown(duration: number){
-        console.log(duration);
         if(this.stopTimer == false){
             if(duration > 0){
                 duration--;

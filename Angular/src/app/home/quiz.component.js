@@ -48,7 +48,6 @@ var QuizComponent = (function () {
     };
     QuizComponent.prototype.countdown = function (duration) {
         var _this = this;
-        console.log(duration);
         if (this.stopTimer == false) {
             if (duration > 0) {
                 duration--;
