@@ -1,5 +1,5 @@
 var path = require('path');
-var updater = require(path.resolve(__dirname, "./SqlDBController.js"));
+var updater = require(path.resolve(__dirname, "./DocumentDBController.js"));
 
 registrationVerify = function(socket){
     socket.on('register', function(msg){
@@ -7,15 +7,13 @@ registrationVerify = function(socket){
 		var username = incomingMsg.username;
 		var password1 = incomingMsg.password1;
 		var password2 = incomingMsg.password2;
-		createAccountsTableIfNotExists();
-		//restartAccountsTable();
 		
 		if(emptyFields(username, password1, password2, socket) == false &&
 		   invalidAmountChars(username, password1, password2, socket) == false &&
 		   passNotMatching(password1, password2, socket) == false)
 		{
 			//INSERT TO DATABASE
-			register(username, password1, socket);
+			registerAccount(username, password1, socket);
 		}
 		//getAccounts();
 	});

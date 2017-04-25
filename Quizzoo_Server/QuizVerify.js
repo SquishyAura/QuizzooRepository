@@ -5,7 +5,7 @@ insertQuiz = function(socket){
     socket.on('quiz', function(msg){
         var incomingMsg = JSON.parse(msg);
         incomingMsg.id = generateUUID();
-        insertDocument(incomingMsg);
+        insertQuizDocument(incomingMsg);
     });
 }
 
