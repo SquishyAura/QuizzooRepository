@@ -144,7 +144,7 @@ registerAccount = function(username, password, socket){ //Check if username exis
             console.log(results[0]);
             if(results[0] == undefined){ //if username doesn't exist in db, user can register
                 var saveAccountAsObject = {
-                    id: username,
+                    id: generateUUID(),
                     username: username,
                     password: password
                 }
@@ -176,7 +176,7 @@ insertAccountDocument = function(document){
 }
 
 loginAccount = function(username, password, socket){
-    client.queryDocuments(accountsCollectionUrl, 'SELECT a.username FROM accounts a WHERE a.username = "' + username +'"').toArray((err, results) => {
+    client.queryDocuments(accountsCollectionUrl, 'SELECT a FROM accounts a WHERE a.username = "' + username +'" AND a.password = "' + password + '"').toArray((err, results) => {
         if (err) { 
             console.log(err);
         }
@@ -200,6 +200,16 @@ loginAccount = function(username, password, socket){
         }
     });
 }
+
+function generateUUID() {
+    var date = new Date().getTime();
+    var uuid = 'xxaxxxxx-xxxx-xxxx-xxxx-xxxx9x2xxxxx'.replace(/[xy]/g, function(c) {
+        var r = (date + Math.random() * 16) % 16 | 0;
+        date = Math.floor(date / 16);
+        return (c == 'x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+};
 
 /**
  * QUIZZES
