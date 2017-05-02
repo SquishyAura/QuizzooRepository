@@ -8,17 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var io = require("socket.io-client");
-var SocketService = (function () {
-    function SocketService() {
+const core_1 = require('@angular/core');
+const io = require("socket.io-client");
+let SocketService = class SocketService {
+    constructor() {
         this.socket = io.connect('http://localhost:9999');
     }
-    SocketService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], SocketService);
-    return SocketService;
-}());
+};
+SocketService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [])
+], SocketService);
 exports.SocketService = SocketService;
 //# sourceMappingURL=socket.service.js.map

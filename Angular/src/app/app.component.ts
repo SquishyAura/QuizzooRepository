@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as io from "socket.io-client";
 import { SocketService } from './global/socket.service';
 
+
 @Component({
   moduleId: module.id,
   selector: 'my-app',

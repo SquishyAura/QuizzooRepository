@@ -8,36 +8,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var socket_service_1 = require('../global/socket.service');
-var router_1 = require('@angular/router');
-var LoginComponent = (function () {
-    function LoginComponent(socketService, router) {
+const core_1 = require('@angular/core');
+const socket_service_1 = require('../global/socket.service');
+const router_1 = require('@angular/router');
+let LoginComponent = class LoginComponent {
+    constructor(socketService, router) {
         this.socketService = socketService;
         this.router = router;
         this.name = 'Angular';
     }
-    LoginComponent.prototype.loginAccount = function () {
+    loginAccount() {
         var login = {
             username: this.username,
             password: this.password,
         };
         this.socketService.socket.emit('login', JSON.stringify(login));
-    };
-    LoginComponent.prototype.ngOnInit = function () {
+    }
+    ngOnInit() {
         if (localStorage.getItem('user')) {
             this.router.navigateByUrl('/home');
         }
-    };
-    LoginComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'login-app',
-            templateUrl: 'login.component.html',
-        }), 
-        __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router])
-    ], LoginComponent);
-    return LoginComponent;
-}());
+    }
+};
+LoginComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'login-app',
+        templateUrl: 'login.component.html',
+    }), 
+    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router])
+], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

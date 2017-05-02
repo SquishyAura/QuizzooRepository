@@ -8,13 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var AuthService = (function () {
-    function AuthService(router) {
+const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
+let AuthService = class AuthService {
+    constructor(router) {
         this.router = router;
     }
-    AuthService.prototype.canActivate = function () {
+    canActivate() {
         if (localStorage.getItem('user')) {
             return true;
         }
@@ -22,12 +22,11 @@ var AuthService = (function () {
             this.router.navigateByUrl('/login');
             return false;
         }
-    };
-    AuthService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], AuthService);
-    return AuthService;
-}());
+    }
+};
+AuthService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [router_1.Router])
+], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

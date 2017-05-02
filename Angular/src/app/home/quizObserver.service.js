@@ -8,26 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var Observable_1 = require('rxjs/Observable');
-var core_1 = require('@angular/core');
-var socket_service_1 = require('../global/socket.service');
-var QuizObserverService = (function () {
-    function QuizObserverService(socketService) {
+const Observable_1 = require('rxjs/Observable');
+const core_1 = require('@angular/core');
+const socket_service_1 = require('../global/socket.service');
+let QuizObserverService = class QuizObserverService {
+    constructor(socketService) {
         this.socketService = socketService;
     }
-    QuizObserverService.prototype.getPublicQuizzes = function () {
-        var _this = this;
-        var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('getPublicQuizzes', null, function (error, msg) {
+    getPublicQuizzes() {
+        let observable = new Observable_1.Observable((observer) => {
+            this.socketService.socket.emit('getPublicQuizzes', null, function (error, msg) {
                 observer.next(msg);
             });
         });
         return observable;
-    };
-    QuizObserverService.prototype.getQuiz = function (id) {
-        var _this = this;
-        var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('getQuiz', JSON.stringify(id), function (error, msg) {
+    }
+    getQuiz(id) {
+        let observable = new Observable_1.Observable((observer) => {
+            this.socketService.socket.emit('getQuiz', JSON.stringify(id), function (error, msg) {
                 if (msg.length > 0) {
                     observer.next(msg); //if id exists in database, return the JSON object
                 }
@@ -37,45 +35,41 @@ var QuizObserverService = (function () {
             });
         });
         return observable;
-    };
-    QuizObserverService.prototype.getMyQuizzes = function (currentUser) {
-        var _this = this;
-        var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('getMyQuizzes', JSON.stringify(currentUser), function (error, msg) {
+    }
+    getMyQuizzes(currentUser) {
+        let observable = new Observable_1.Observable((observer) => {
+            this.socketService.socket.emit('getMyQuizzes', JSON.stringify(currentUser), function (error, msg) {
                 observer.next(msg);
             });
         });
         return observable;
-    };
-    QuizObserverService.prototype.getQuizStatistics = function (id) {
-        var _this = this;
-        var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('getQuizStatistics', JSON.stringify(id.split("/")[3]), function (error, msg) {
+    }
+    getQuizStatistics(id) {
+        let observable = new Observable_1.Observable((observer) => {
+            this.socketService.socket.emit('getQuizStatistics', JSON.stringify(id.split("/")[3]), function (error, msg) {
                 observer.next(msg);
             });
         });
         return observable;
-    };
-    QuizObserverService.prototype.submitQuiz = function (radiobuttons, checkboxes, quizToDisplay, currentUser) {
-        var _this = this;
+    }
+    submitQuiz(radiobuttons, checkboxes, quizToDisplay, currentUser) {
         var submitQuiz = {
             radiobuttons: radiobuttons,
             checkboxes: checkboxes,
             quizToDisplay: quizToDisplay,
             currentUser: currentUser
         };
-        var observable = new Observable_1.Observable(function (observer) {
-            _this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function (error, msg) {
+        let observable = new Observable_1.Observable((observer) => {
+            this.socketService.socket.emit('submitQuiz', JSON.stringify(submitQuiz), function (error, msg) {
                 observer.next(msg);
             });
         });
         return observable;
-    };
-    QuizObserverService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [socket_service_1.SocketService])
-    ], QuizObserverService);
-    return QuizObserverService;
-}());
+    }
+};
+QuizObserverService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [socket_service_1.SocketService])
+], QuizObserverService);
 exports.QuizObserverService = QuizObserverService;
 //# sourceMappingURL=quizObserver.service.js.map

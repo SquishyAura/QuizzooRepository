@@ -8,27 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var WelcomeComponent = (function () {
-    function WelcomeComponent(router) {
+const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
+let WelcomeComponent = class WelcomeComponent {
+    constructor(router) {
         this.router = router;
         this.name = 'Angular';
     }
-    WelcomeComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         if (localStorage.getItem('user')) {
             this.router.navigateByUrl('/home');
         }
-    };
-    WelcomeComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'welcome-app',
-            templateUrl: 'welcome.component.html',
-        }), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], WelcomeComponent);
-    return WelcomeComponent;
-}());
+    }
+};
+WelcomeComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'welcome-app',
+        templateUrl: 'welcome.component.html',
+    }), 
+    __metadata('design:paramtypes', [router_1.Router])
+], WelcomeComponent);
 exports.WelcomeComponent = WelcomeComponent;
 //# sourceMappingURL=welcome.component.js.map

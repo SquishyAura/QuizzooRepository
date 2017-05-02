@@ -8,13 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var socket_service_1 = require('../global/socket.service');
-var forms_1 = require('@angular/forms');
-var router_1 = require('@angular/router');
-var app_component_1 = require('../app.component');
-var TemplateComponent = (function () {
-    function TemplateComponent(formBuilder, socketService, router, app) {
+const core_1 = require('@angular/core');
+const socket_service_1 = require('../global/socket.service');
+const forms_1 = require('@angular/forms');
+const router_1 = require('@angular/router');
+const app_component_1 = require('../app.component');
+let TemplateComponent = class TemplateComponent {
+    constructor(formBuilder, socketService, router, app) {
         this.formBuilder = formBuilder;
         this.socketService = socketService;
         this.router = router;
@@ -51,7 +51,7 @@ var TemplateComponent = (function () {
             { option: 'Unlimited' },
         ];
     }
-    TemplateComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         // initialize quiz
         this.myForm = this.formBuilder.group({
             id: "0",
@@ -65,8 +65,8 @@ var TemplateComponent = (function () {
                 this.initQuestion()
             ]),
         });
-    };
-    TemplateComponent.prototype.initQuestion = function () {
+    }
+    initQuestion() {
         // initialize question
         return this.formBuilder.group({
             questionText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(10)]],
@@ -75,50 +75,48 @@ var TemplateComponent = (function () {
                 this.initAnswer()
             ]),
         });
-    };
-    TemplateComponent.prototype.initAnswer = function () {
+    }
+    initAnswer() {
         // initialize answer
         return this.formBuilder.group({
             answerText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             correctAnswer: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             numberOfClicks: "0",
         });
-    };
-    TemplateComponent.prototype.addQuestion = function () {
-        var control = this.myForm.controls['questions'];
+    }
+    addQuestion() {
+        const control = this.myForm.controls['questions'];
         control.push(this.initQuestion());
-    };
-    TemplateComponent.prototype.addAnswer = function (input) {
-        var control = this.myForm.get('questions.' + input + '.answers');
+    }
+    addAnswer(input) {
+        const control = this.myForm.get('questions.' + input + '.answers');
         control.push(this.initAnswer());
-    };
-    TemplateComponent.prototype.removeQuestion = function (index) {
-        var control = this.myForm.controls['questions'];
+    }
+    removeQuestion(index) {
+        const control = this.myForm.controls['questions'];
         control.removeAt(index);
-    };
-    TemplateComponent.prototype.removeAnswer = function (questionIndex, answerIndex) {
-        var control = this.myForm.get('questions.' + questionIndex + '.answers');
+    }
+    removeAnswer(questionIndex, answerIndex) {
+        const control = this.myForm.get('questions.' + questionIndex + '.answers');
         control.removeAt(answerIndex);
-    };
-    TemplateComponent.prototype.save = function () {
-        var formObject = this.myForm.getRawValue();
+    }
+    save() {
+        let formObject = this.myForm.getRawValue();
         return formObject;
-    };
-    TemplateComponent.prototype.emitQuiz = function () {
-        var _this = this;
+    }
+    emitQuiz() {
         this.socketService.socket.emit('quiz', JSON.stringify(this.save()));
-        setTimeout(function () { return _this.router.navigateByUrl('/home'); }, 1000);
+        setTimeout(() => this.router.navigateByUrl('/home'), 1000);
         this.app.popUpFade("Quiz created.");
-    };
-    TemplateComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'template-app',
-            templateUrl: 'template.component.html',
-        }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService, router_1.Router, app_component_1.AppComponent])
-    ], TemplateComponent);
-    return TemplateComponent;
-}());
+    }
+};
+TemplateComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'template-app',
+        templateUrl: 'template.component.html',
+    }), 
+    __metadata('design:paramtypes', [forms_1.FormBuilder, socket_service_1.SocketService, router_1.Router, app_component_1.AppComponent])
+], TemplateComponent);
 exports.TemplateComponent = TemplateComponent;
 //# sourceMappingURL=template.component.js.map

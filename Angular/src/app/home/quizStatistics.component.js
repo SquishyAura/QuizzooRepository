@@ -8,48 +8,46 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var quizObserver_service_1 = require('./quizObserver.service');
-var router_1 = require('@angular/router');
-var QuizStatisticsComponent = (function () {
-    function QuizStatisticsComponent(quizObserverService, router) {
+const core_1 = require('@angular/core');
+const quizObserver_service_1 = require('./quizObserver.service');
+const router_1 = require('@angular/router');
+let QuizStatisticsComponent = class QuizStatisticsComponent {
+    constructor(quizObserverService, router) {
         this.quizObserverService = quizObserverService;
         this.router = router;
         this.combinedAnswers = [];
     }
-    QuizStatisticsComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.service = this.quizObserverService.getQuizStatistics(this.router.url).subscribe(function (data) {
-            _this.statisticsToDisplay = data;
-            _this.getCombinedNumberOfAnswers();
+    ngOnInit() {
+        this.service = this.quizObserverService.getQuizStatistics(this.router.url).subscribe((data) => {
+            this.statisticsToDisplay = data;
+            this.getCombinedNumberOfAnswers();
         });
-    };
-    QuizStatisticsComponent.prototype.getCombinedNumberOfAnswers = function () {
-        var index = 0;
-        for (var i = 0; i < this.statisticsToDisplay[0].questions.length; i++) {
+    }
+    getCombinedNumberOfAnswers() {
+        let index = 0;
+        for (let i = 0; i < this.statisticsToDisplay[0].questions.length; i++) {
             this.combinedAnswers[index] = 0;
-            for (var j = 0; j < this.statisticsToDisplay[0].questions[i].answers.length; j++) {
-                var numberOfClicks = parseInt(this.statisticsToDisplay[0].questions[i].answers[j].numberOfClicks);
+            for (let j = 0; j < this.statisticsToDisplay[0].questions[i].answers.length; j++) {
+                let numberOfClicks = parseInt(this.statisticsToDisplay[0].questions[i].answers[j].numberOfClicks);
                 this.combinedAnswers[index] = this.combinedAnswers[index] + numberOfClicks;
             }
             index++;
         }
-    };
-    QuizStatisticsComponent.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         this.service.unsubscribe();
-    };
-    QuizStatisticsComponent.prototype.routeBackToQuiz = function () {
+    }
+    routeBackToQuiz() {
         this.router.navigateByUrl('/home/quiz/' + this.router.url.split("/")[3]);
-    };
-    QuizStatisticsComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'quizStatistics-app',
-            templateUrl: 'quizStatistics.component.html',
-        }), 
-        __metadata('design:paramtypes', [quizObserver_service_1.QuizObserverService, router_1.Router])
-    ], QuizStatisticsComponent);
-    return QuizStatisticsComponent;
-}());
+    }
+};
+QuizStatisticsComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'quizStatistics-app',
+        templateUrl: 'quizStatistics.component.html',
+    }), 
+    __metadata('design:paramtypes', [quizObserver_service_1.QuizObserverService, router_1.Router])
+], QuizStatisticsComponent);
 exports.QuizStatisticsComponent = QuizStatisticsComponent;
 //# sourceMappingURL=quizStatistics.component.js.map

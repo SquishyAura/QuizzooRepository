@@ -8,24 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var forms_1 = require('@angular/forms');
-var AnswerComponent = (function () {
-    function AnswerComponent() {
-    }
-    __decorate([
-        core_1.Input('group'), 
-        __metadata('design:type', forms_1.FormGroup)
-    ], AnswerComponent.prototype, "answerForm", void 0);
-    AnswerComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'answer',
-            templateUrl: 'answer.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AnswerComponent);
-    return AnswerComponent;
-}());
+const core_1 = require('@angular/core');
+const forms_1 = require('@angular/forms');
+let AnswerComponent = class AnswerComponent {
+};
+__decorate([
+    core_1.Input('group'), 
+    __metadata('design:type', forms_1.FormGroup)
+], AnswerComponent.prototype, "answerForm", void 0);
+AnswerComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'answer',
+        templateUrl: 'answer.component.html'
+    }), 
+    __metadata('design:paramtypes', [])
+], AnswerComponent);
 exports.AnswerComponent = AnswerComponent;
 //# sourceMappingURL=answer.component.js.map

@@ -10,6 +10,7 @@
     },
     // map tells the System loader where to look for things
     map: {
+
       // our app is within the app folder
       app: 'app',
 
@@ -26,7 +27,7 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      "socket.io-client": "node_modules/socket.io-client/dist/socket.io.js"
+      'socket.io-client': 'npm:socket.io-client/dist/socket.io.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

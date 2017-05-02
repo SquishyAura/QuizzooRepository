@@ -8,36 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var quizObserver_service_1 = require('../home/quizObserver.service');
-var socket_service_1 = require('../global/socket.service');
-var ProfileComponent = (function () {
-    function ProfileComponent(router, quizObserverService, socketService, elementRef) {
+const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
+const quizObserver_service_1 = require('../home/quizObserver.service');
+const socket_service_1 = require('../global/socket.service');
+let ProfileComponent = class ProfileComponent {
+    constructor(router, quizObserverService, socketService, elementRef) {
         this.router = router;
         this.quizObserverService = quizObserverService;
         this.socketService = socketService;
         this.elementRef = elementRef;
         this.currentUser = localStorage.getItem('user');
     }
-    ProfileComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.service = this.quizObserverService.getMyQuizzes(localStorage.getItem('user')).subscribe(function (data) {
-            _this.myQuizzes = data;
+    ngOnInit() {
+        this.service = this.quizObserverService.getMyQuizzes(localStorage.getItem('user')).subscribe(data => {
+            this.myQuizzes = data;
         });
-    };
-    ProfileComponent.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         this.service.unsubscribe();
-    };
-    ProfileComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'profile-app',
-            templateUrl: 'profile.component.html',
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, quizObserver_service_1.QuizObserverService, socket_service_1.SocketService, core_1.ElementRef])
-    ], ProfileComponent);
-    return ProfileComponent;
-}());
+    }
+};
+ProfileComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'profile-app',
+        templateUrl: 'profile.component.html',
+    }), 
+    __metadata('design:paramtypes', [router_1.Router, quizObserver_service_1.QuizObserverService, socket_service_1.SocketService, core_1.ElementRef])
+], ProfileComponent);
 exports.ProfileComponent = ProfileComponent;
 //# sourceMappingURL=profile.component.js.map
