@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import * as io from "socket.io-client";
 import { SocketService } from '../global/socket.service';
 import { Router } from '@angular/router';
+import { RegisterObserverService } from './registerObserver.service';
+import { AppComponent }  from '../app.component';
 
 @Component({
   moduleId: module.id,
@@ -9,20 +11,27 @@ import { Router } from '@angular/router';
   templateUrl: 'register.component.html',
 })
 export class RegisterComponent  { 
-    name = 'Angular'; 
     username: string;
     password1: string;
     password2: string;
 
-    constructor(private socketService: SocketService, private router: Router){ } 
+    service: any;
+    data: any;
+
+    constructor(private socketService: SocketService, private router: Router, private registerObserverService: RegisterObserverService, private appComponent: AppComponent){ } 
     
     registerAccount(){
-        var register = {
-            username: this.username,
-            password1: this.password1,
-            password2: this.password2,
-        }
-        this.socketService.socket.emit('register', JSON.stringify(register));
+        this.service = this.registerObserverService.register(this.username, this.password1, this.password2).subscribe((data: any) => {
+            if(data == true){
+                this.appComponent.popUpFade("You have successfully registered!");
+                return true;
+            }
+            else
+            {
+                this.appComponent.popUpFade(data);
+                return false;
+            }
+        })
     } 
 
     ngOnInit(){

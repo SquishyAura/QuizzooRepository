@@ -26,6 +26,8 @@ const quizStatistics_component_1 = require('./home/quizStatistics.component');
 const socket_service_1 = require('./global/socket.service');
 const auth_service_1 = require('./global/auth.service');
 const quizObserver_service_1 = require('./home/quizObserver.service');
+const loginObserver_service_1 = require('./login/loginObserver.service');
+const registerObserver_service_1 = require('./register/registerObserver.service');
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -60,6 +62,8 @@ AppModule = __decorate([
         providers: [socket_service_1.SocketService,
             auth_service_1.AuthService,
             quizObserver_service_1.QuizObserverService,
+            loginObserver_service_1.LoginObserverService,
+            registerObserver_service_1.RegisterObserverService,
         ],
         bootstrap: [app_component_1.AppComponent]
     }), 

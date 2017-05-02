@@ -1,4 +1,4 @@
-<div *ngIf="guest">
+<div *ngIf="loginObserverService.guest">
     <div class="header">
         <img src="../images/arrow.png" class="arrow_image">
         <a routerLink="/welcome"><img src="../images/home.png" class="home_image"></a>
@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<div *ngIf="user">
+<div *ngIf="loginObserverService.user">
     <div class="header">
         <img src="../images/arrow.png" class="arrow_image">
         <a routerLink="/home"><img src="../images/home.png" class="home_image"></a>

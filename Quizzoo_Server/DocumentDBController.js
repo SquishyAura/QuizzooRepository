@@ -135,7 +135,7 @@ function replaceQuizDocument(document) {
 /**
  * REGISTRATION & LOGIN
  */
-registerAccount = function(username, password, socket){ //Check if username exists in db. If not, register user.
+registerAccount = function(username, password, socket, callback){ //Check if username exists in db. If not, register user.
     client.queryDocuments(accountsCollectionUrl, 'SELECT a.username FROM accounts a WHERE a.username = "' + username +'"').toArray((err, results) => {
         if (err) { 
             console.log(err);
@@ -155,14 +155,11 @@ registerAccount = function(username, password, socket){ //Check if username exis
                     correctRegister: correctRegister
                 }	
                 socket.emit('registerError', JSON.stringify(registerSuccess));
+                callback('error', true);
             }
             else //if username exists in db, user can not register
             {
-                var usernameTaken = true;
-                var usernameError = {
-                    usernameTaken: usernameTaken
-                }
-                socket.emit('registerError', JSON.stringify(usernameError));
+                callback('error', "Username is already taken.");
             }
         }
     });
@@ -175,28 +172,23 @@ insertAccountDocument = function(document){
         .then(() => queryCollection(accountsCollectionID, accountsCollectionUrl))
 }
 
-loginAccount = function(username, password, socket){
+loginAccount = function(username, password, socket, callback){
     client.queryDocuments(accountsCollectionUrl, 'SELECT a FROM accounts a WHERE a.username = "' + username +'" AND a.password = "' + password + '"').toArray((err, results) => {
         if (err) { 
             console.log(err);
         }
         else { 
+            var correctAccout = true;
+
             if(results[0] == undefined){ //if username doesn't exist in db, user cannot log in
-                var incorrectAccount = true;
-                var accountError = {
-                    incorrectAccount: incorrectAccount
-                }
-                socket.emit('loginError', JSON.stringify(accountError));
+                correctAccout = false;
             }
             else //if username exists in db, user can log in
             {
-                var correctAccount = true;
-                var accountSuccess = {
-                    correctAccount: correctAccount,
-                    username: username
-                }	
-                socket.emit('loginSuccess', JSON.stringify(accountSuccess));
+                correctAccout = true;
             }
+
+            callback('error', correctAccout);
         }
     });
 }

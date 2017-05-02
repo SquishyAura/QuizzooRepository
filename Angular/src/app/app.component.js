@@ -11,11 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 const core_1 = require('@angular/core');
 const router_1 = require('@angular/router');
 const socket_service_1 = require('./global/socket.service');
+const loginObserver_service_1 = require('./login/loginObserver.service');
 let AppComponent = class AppComponent {
-    constructor(socketService, router) {
+    constructor(socketService, router, loginObserverService) {
         this.socketService = socketService;
         this.router = router;
-        this.name = 'Angular';
+        this.loginObserverService = loginObserverService;
         this.popUpOpacity = 0;
         this.popUpDisplay = "none";
         this.popUpInnerHTML = "";
@@ -34,41 +35,15 @@ let AppComponent = class AppComponent {
         socketService.socket.on('disconnect', function () {
             console.log("disconnected!");
         });
-        socketService.socket.on('registerError', function (msg) {
-            var incomingMsg = JSON.parse(msg);
-            if (incomingMsg.passwordNotMatching == true) {
-                this.popUpFade("The passwords do not match.");
-            }
-            if (incomingMsg.usernameTaken == true) {
-                this.popUpFade("Username is already taken.");
-            }
-            if (incomingMsg.fieldsEmpty == true) {
-                this.popUpFade("Please fill out all fields.");
-            }
-            if (incomingMsg.invalidLength == true) {
-                this.popUpFade("Username & Password must be between 5-20 characters long.");
-            }
-            if (incomingMsg.correctRegister == true) {
-                this.popUpFade("You have successfully registered! Redirecting to the login page.");
-                setTimeout(() => this.router.navigateByUrl('/login'), 3000); //redirects to login page after 3 seconds
-            }
-        }.bind(this));
-        socketService.socket.on('loginError', function (msg) {
-            var incomingMsg = JSON.parse(msg);
-            if (incomingMsg.incorrectAccount == true) {
-                this.popUpFade("Incorrect account information.");
-            }
-        }.bind(this));
-        this.loginSuccess();
     }
     ngOnInit() {
         if (localStorage.getItem('user') === null) {
-            this.user = false;
-            this.guest = true;
+            this.loginObserverService.user = false;
+            this.loginObserverService.guest = true;
         }
         else if (localStorage.getItem('user') !== null) {
-            this.guest = false;
-            this.user = true;
+            this.loginObserverService.guest = false;
+            this.loginObserverService.user = true;
         }
     }
     popUpFade(input) {
@@ -79,25 +54,10 @@ let AppComponent = class AppComponent {
             setTimeout(() => this.fade(), 2000); //popup box fades away after 1 seconds
         }
     }
-    loginSuccess() {
-        this.socketService.socket.on('loginSuccess', function (msg) {
-            var incomingMsg = JSON.parse(msg);
-            if (incomingMsg.correctAccount == true) {
-                localStorage.setItem('user', incomingMsg.username);
-                this.popUpFade("You have successfully logged in.");
-                console.log('logged in');
-                this.user = true;
-                this.guest = false;
-                this.router.navigateByUrl('/home');
-            }
-            return true;
-        }.bind(this));
-        return false;
-    }
     logoutAccount() {
         localStorage.removeItem('user');
-        this.user = false;
-        this.guest = true;
+        this.loginObserverService.user = false;
+        this.loginObserverService.guest = true;
         this.popUpFade("Logged out.");
         this.router.navigateByUrl('/login');
     }
@@ -108,7 +68,7 @@ AppComponent = __decorate([
         selector: 'my-app',
         templateUrl: 'app.component.html',
     }), 
-    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router])
+    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router, loginObserver_service_1.LoginObserverService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

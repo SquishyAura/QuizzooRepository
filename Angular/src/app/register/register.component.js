@@ -11,19 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 const core_1 = require('@angular/core');
 const socket_service_1 = require('../global/socket.service');
 const router_1 = require('@angular/router');
+const registerObserver_service_1 = require('./registerObserver.service');
+const app_component_1 = require('../app.component');
 let RegisterComponent = class RegisterComponent {
-    constructor(socketService, router) {
+    constructor(socketService, router, registerObserverService, appComponent) {
         this.socketService = socketService;
         this.router = router;
-        this.name = 'Angular';
+        this.registerObserverService = registerObserverService;
+        this.appComponent = appComponent;
     }
     registerAccount() {
-        var register = {
-            username: this.username,
-            password1: this.password1,
-            password2: this.password2,
-        };
-        this.socketService.socket.emit('register', JSON.stringify(register));
+        this.service = this.registerObserverService.register(this.username, this.password1, this.password2).subscribe((data) => {
+            if (data == true) {
+                this.appComponent.popUpFade("You have successfully registered!");
+                return true;
+            }
+            else {
+                this.appComponent.popUpFade(data);
+                return false;
+            }
+        });
     }
     ngOnInit() {
         if (localStorage.getItem('user')) {
@@ -37,7 +44,7 @@ RegisterComponent = __decorate([
         selector: 'register-app',
         templateUrl: 'register.component.html',
     }), 
-    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router])
+    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router, registerObserver_service_1.RegisterObserverService, app_component_1.AppComponent])
 ], RegisterComponent);
 exports.RegisterComponent = RegisterComponent;
 //# sourceMappingURL=register.component.js.map

@@ -18,6 +18,8 @@ import { QuizStatisticsComponent } from './home/quizStatistics.component';
 import { SocketService } from './global/socket.service';
 import { AuthService } from './global/auth.service';
 import { QuizObserverService } from './home/quizObserver.service';
+import { LoginObserverService } from './login/loginObserver.service';
+import { RegisterObserverService } from './register/registerObserver.service';
 
 @NgModule({
   imports:      [ BrowserModule,
@@ -50,6 +52,8 @@ import { QuizObserverService } from './home/quizObserver.service';
   providers: [ SocketService,
                AuthService,
                QuizObserverService,
+               LoginObserverService,
+               RegisterObserverService,
              ],
   bootstrap:    [ AppComponent ]
 })

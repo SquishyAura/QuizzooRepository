@@ -2,54 +2,42 @@ var path = require('path');
 var updater = require(path.resolve(__dirname, "./DocumentDBController.js"));
 
 registrationVerify = function(socket){
-    socket.on('register', function(msg){
+    socket.on('register', function(msg, callback){
 		var incomingMsg = JSON.parse(msg);
 		var username = incomingMsg.username;
 		var password1 = incomingMsg.password1;
 		var password2 = incomingMsg.password2;
 		
-		if(emptyFields(username, password1, password2, socket) == false &&
-		   invalidAmountChars(username, password1, password2, socket) == false &&
-		   passNotMatching(password1, password2, socket) == false)
+		if(emptyFields(username, password1, password2, socket, callback) == false &&
+		   invalidAmountChars(username, password1, password2, socket, callback) == false &&
+		   passNotMatching(password1, password2, socket, callback) == false)
 		{
 			//INSERT TO DATABASE
-			registerAccount(username, password1, socket);
+			registerAccount(username, password1, socket, callback);
 		}
 		//getAccounts();
 	});
 }
 
-function emptyFields(username, password1, password2, socket){
+function emptyFields(username, password1, password2, socket, callback){
 	if(username == "" || password1 == "" || password2 == "" || username == null || password1 == null || password2 == null){ //if some fields are empty
-		var fieldsEmpty = true;
-		var fieldsError = {
-			fieldsEmpty: fieldsEmpty
-		}	
-		socket.emit('registerError', JSON.stringify(fieldsError));
+		callback('error', "Please fill out all fields.");
 		return true;
 	}
 	return false;
 }
 
-function invalidAmountChars(username, password1, password2, socket){
+function invalidAmountChars(username, password1, password2, socket, callback){
 	if(username.length > 20 || password1.length > 20 || password2.length > 20 || username.length < 5 || password1.length < 5 || password2.length < 5){ //if username or password are too long/short
-		var invalidLength = true;
-		var lengthError = {
-			invalidLength: invalidLength
-		}
-		socket.emit('registerError', JSON.stringify(lengthError))
+		callback('error', "Username & Password must be between 5-20 characters long.");
 		return true;
 	}
 	return false;
 }
 
-function passNotMatching(password1, password2, socket){
+function passNotMatching(password1, password2, socket, callback){
 	if(password1 != password2){ //if passwords don't match
-		var passwordNotMatching = true;
-		var passwordError = {
-			passwordNotMatching: passwordNotMatching
-		}
-		socket.emit('registerError', JSON.stringify(passwordError));
+		callback('error', "The passwords do not match.");
 		return true;
 	}
 	return false;

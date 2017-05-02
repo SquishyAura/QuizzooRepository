@@ -11,22 +11,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 const core_1 = require('@angular/core');
 const socket_service_1 = require('../global/socket.service');
 const router_1 = require('@angular/router');
+const loginObserver_service_1 = require('./loginObserver.service');
+const app_component_1 = require('../app.component');
 let LoginComponent = class LoginComponent {
-    constructor(socketService, router) {
+    constructor(socketService, router, loginObserverService, appComponent) {
         this.socketService = socketService;
         this.router = router;
-        this.name = 'Angular';
+        this.loginObserverService = loginObserverService;
+        this.appComponent = appComponent;
     }
     loginAccount() {
-        var login = {
-            username: this.username,
-            password: this.password,
-        };
-        this.socketService.socket.emit('login', JSON.stringify(login));
+        this.service = this.loginObserverService.login(this.username, this.password).subscribe(data => {
+            if (data == true) {
+                localStorage.setItem('user', this.username);
+                this.appComponent.popUpFade("You have successfully logged in.");
+                console.log('logged in');
+                this.loginObserverService.user = true;
+                this.loginObserverService.guest = false;
+                this.router.navigateByUrl('/home');
+                return true;
+            }
+            else {
+                this.appComponent.popUpFade("Incorrect account information.");
+                return false;
+            }
+        });
     }
     ngOnInit() {
         if (localStorage.getItem('user')) {
-            this.router.navigateByUrl('/home');
         }
     }
 };
@@ -36,7 +48,7 @@ LoginComponent = __decorate([
         selector: 'login-app',
         templateUrl: 'login.component.html',
     }), 
-    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router])
+    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router, loginObserver_service_1.LoginObserverService, app_component_1.AppComponent])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map
