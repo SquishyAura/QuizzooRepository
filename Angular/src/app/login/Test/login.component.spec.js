@@ -14,13 +14,22 @@ describe('LoginComponent', function () {
                 forms_1.FormsModule],
             declarations: [login_component_1.LoginComponent],
             providers: [socket_service_1.SocketService]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
     beforeEach(() => {
         fixture = testing_1.TestBed.createComponent(login_component_1.LoginComponent);
         comp = fixture.componentInstance;
     });
     it('should create component', () => expect(comp).toBeDefined());
+    it('should username be', () => {
+        comp.username = 'adawdawd';
+        comp.password = 'awdawdawd';
+        expect(comp.username).toBe('adawdawd');
+        expect(comp.password).toBe('awdawdawd');
+        console.log(comp.username);
+    });
+    it('should fail to login', () => {
+        comp.loginAccount();
+    });
 });
 //# sourceMappingURL=login.component.spec.js.map

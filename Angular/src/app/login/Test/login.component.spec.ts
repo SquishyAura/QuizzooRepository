@@ -23,19 +23,28 @@ describe('LoginComponent', function () {
             declarations: [LoginComponent],
             providers: [SocketService]
 
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LoginComponent);
         comp = fixture.componentInstance;
-
+        
 
     });
 
     it('should create component', () => expect(comp).toBeDefined());
+    it('should username be', () => {
+        comp.username = 'adawdawd';
+        comp.password = 'awdawdawd';
+        expect(comp.username).toBe('adawdawd');
+        expect(comp.password).toBe('awdawdawd'); 
+        console.log(comp.username);
+    })
     
+    it('should fail to login', () => {
+        comp.loginAccount()
+    });
 
 
 });
