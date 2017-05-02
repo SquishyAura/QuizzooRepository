@@ -92,17 +92,24 @@ name = 'Angular';
           this.popUpFade("Incorrect account information.");
         }
       }.bind(this));
+      
+      this.loginSuccess();
+  }
 
-      socketService.socket.on('loginSuccess', function(msg: string){
+  loginSuccess(): boolean{
+    this.socketService.socket.on('loginSuccess', function(msg: string){
         var incomingMsg = JSON.parse(msg);
         if(incomingMsg.correctAccount == true){
-          localStorage.setItem('user', incomingMsg.username);
-          this.popUpFade("You have successfully logged in.");
-          this.user = true;
-          this.guest = false;
-          this.router.navigateByUrl('/home')
+            localStorage.setItem('user', incomingMsg.username);
+            this.popUpFade("You have successfully logged in.");
+            console.log('logged in');
+            this.user = true;
+            this.guest = false;
+            this.router.navigateByUrl('/home')
         }
+        return true;
       }.bind(this));
+      return false;
   }
 
   logoutAccount(){

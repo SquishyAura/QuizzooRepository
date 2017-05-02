@@ -6,7 +6,8 @@ loginVerify = function(socket){
 		var incomingMsg = JSON.parse(msg);
 		var username = incomingMsg.username;
 		var password = incomingMsg.password;
-
+        console.log('heil hitler');
         loginAccount(username, password, socket);
+
     });
 }

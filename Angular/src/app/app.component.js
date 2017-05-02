@@ -59,16 +59,7 @@ let AppComponent = class AppComponent {
                 this.popUpFade("Incorrect account information.");
             }
         }.bind(this));
-        socketService.socket.on('loginSuccess', function (msg) {
-            var incomingMsg = JSON.parse(msg);
-            if (incomingMsg.correctAccount == true) {
-                localStorage.setItem('user', incomingMsg.username);
-                this.popUpFade("You have successfully logged in.");
-                this.user = true;
-                this.guest = false;
-                this.router.navigateByUrl('/home');
-            }
-        }.bind(this));
+        this.loginSuccess();
     }
     ngOnInit() {
         if (localStorage.getItem('user') === null) {
@@ -87,6 +78,21 @@ let AppComponent = class AppComponent {
             this.popUpInnerHTML = input;
             setTimeout(() => this.fade(), 2000); //popup box fades away after 1 seconds
         }
+    }
+    loginSuccess() {
+        this.socketService.socket.on('loginSuccess', function (msg) {
+            var incomingMsg = JSON.parse(msg);
+            if (incomingMsg.correctAccount == true) {
+                localStorage.setItem('user', incomingMsg.username);
+                this.popUpFade("You have successfully logged in.");
+                console.log('logged in');
+                this.user = true;
+                this.guest = false;
+                this.router.navigateByUrl('/home');
+            }
+            return true;
+        }.bind(this));
+        return false;
     }
     logoutAccount() {
         localStorage.removeItem('user');
