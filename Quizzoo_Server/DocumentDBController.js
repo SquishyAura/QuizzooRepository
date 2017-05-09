@@ -10,7 +10,8 @@ var databaseUrl = `dbs/${databaseID}`;
 var quizzesCollectionUrl = `${databaseUrl}/colls/${quizzesCollectionID}`;
 var accountsCollectionUrl = `${databaseUrl}/colls/${accountsCollectionID}`;
 
-
+var path = require('path');
+var updater = require(path.resolve(__dirname, "./RegisterVerify.js"));
 /**
  * Get the database by ID, or create if it doesn't exist.
  * @param {string} database - The database to get or create
@@ -159,7 +160,11 @@ registerAccount = function(username, password, socket, callback){ //Check if use
             }
             else //if username exists in db, user can not register
             {
-                callback('error', "Username is already taken.");
+                
+                if(usernameTaken(username, results[0].username) == true){
+                    callback('error', "Username is already taken.");
+                }
+                //callback('error', "Username is already taken.");
             }
         }
     });
@@ -188,6 +193,7 @@ loginAccount = function(username, password, socket, callback){
                 correctAccout = true;
             }
 
+            
             callback('error', correctAccout);
         }
     });

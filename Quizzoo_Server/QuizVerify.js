@@ -149,7 +149,7 @@ function removeEmptyElementsInArray(array1, array2){
     return cleanedArray;
 }
 
-function generateUUID() {
+generateUUID = function() {
     var date = new Date().getTime();
     var uuid = 'xxxxxxxx-x9xx-xxxx-pxxx-xxxxxxxx1xxx'.replace(/[xy]/g, function(c) {
         var r = (date + Math.random() * 16) % 16 | 0;
