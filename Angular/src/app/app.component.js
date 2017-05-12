@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const core_1 = require('@angular/core');
 const router_1 = require('@angular/router');
-const socket_service_1 = require('./global/socket.service');
 const loginObserver_service_1 = require('./login/loginObserver.service');
+const socket_service_1 = require('./global/socket.service'); // socket service
 let AppComponent = class AppComponent {
     constructor(socketService, router, loginObserverService) {
         this.socketService = socketService;
@@ -63,6 +63,7 @@ let AppComponent = class AppComponent {
     }
 };
 AppComponent = __decorate([
+    // socket service
     core_1.Component({
         moduleId: module.id,
         selector: 'my-app',

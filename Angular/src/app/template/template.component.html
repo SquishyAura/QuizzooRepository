@@ -1,5 +1,5 @@
 <table class="pageTable" align="center">
-    <form [formGroup]="myForm" novalidate (ngSubmit)="save()" align="center">
+    <div [formGroup]="myForm" novalidate (ngSubmit)="save()" align="center">
         <input type="submit" value="Submit Quiz" class="btn btn-primary" [disabled]="!myForm.valid" (click)="emitQuiz()">
         <!-- Quiz Information -->
         <div class="form-group">
@@ -16,7 +16,7 @@
                 Select a quiz access level.
             </small>
             <br/><br/><label>Quiz Duration</label>
-            <br/><small>(in minutes)</small>
+            <br/><em>(in minutes)</em>
             <br/><select class="Quiz-access-dropdown" formControlName="duration">
                 <option *ngFor="let duration of durationArray">{{duration.option}}</option>
             </select>
@@ -38,7 +38,7 @@
                     <br/><small *ngIf="!question.controls.questionText.valid">
                         Question must be at least 10 characters.
                     </small>
-                    <!-- List of question types -->
+                    <!-- Question types -->
                     <br/><label>Question type:</label>
                     <select class="Question-type-dropdown" formControlName="types">
                         <option *ngFor="let type of typesArray">{{type.option}}</option>
@@ -74,5 +74,5 @@
         <br/>
 
         <button (click)="addQuestion()" class="template-button">Add question</button>
-    </form>
+    </div>
 </table>

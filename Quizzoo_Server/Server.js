@@ -16,21 +16,21 @@ var updater = require(path.resolve(__dirname, "./DocumentDBController.js"));
 io.on('connect', function (socket) {
 	console.log("a user connected");
 	
-	loginVerify(socket);
+	loginVerify(socket); //checks whether user exists in database. If user does exist, they can log in.
 
-	registrationVerify(socket);
+	registrationVerify(socket); //register a user into database
 
-	insertQuiz(socket);
-	deleteQuiz(socket);
+	insertQuiz(socket); //insert a quiz into database
+	deleteQuiz(socket); //deletes a quiz from database
 	getPublicQuizzes(socket); //for display page
 	getQuiz(socket); //for loading a single quiz page
 	getMyQuizzes(socket); //for profile page
-	getQuizStatistics(socket);
+	getQuizStatistics(socket); //for statistics page
 	submitQuiz(socket); //submit user's answers, then server checks if answers are correct or incorrect
 	submitRating(socket); //submit user's ratings.
 });
 
 
-http.listen(9999, function() {
+http.listen(9999, function() { //server listens to port 9999
 	console.log("listening to: 9999");
 });

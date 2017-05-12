@@ -28,7 +28,6 @@ let QuizComponent = class QuizComponent {
     }
     ngOnInit() {
         this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(data => {
-            //console.log(data);
             this.quizToDisplay = data;
             if (data[0].duration != 'Unlimited') {
                 this.countdown(data[0].duration * 60);

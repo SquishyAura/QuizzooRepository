@@ -150,12 +150,7 @@ registerAccount = function(username, password, socket, callback){ //Check if use
                     password: password
                 }
                 insertAccountDocument(saveAccountAsObject);
-                
-                var correctRegister = true;
-                var registerSuccess = {
-                    correctRegister: correctRegister
-                }	
-                socket.emit('registerError', JSON.stringify(registerSuccess));
+
                 callback('error', true);
             }
             else //if username exists in db, user can not register

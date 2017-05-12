@@ -28,7 +28,6 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.service = this.quizObserverService.getQuiz(this.router.url).subscribe(data => { //subscribes to service & gets JSON upon page load
-            //console.log(data);
             this.quizToDisplay = data;
             if(data[0].duration != 'Unlimited'){ //if quiz duration isn't unlimited, the timer is run.
                 this.countdown(data[0].duration * 60);

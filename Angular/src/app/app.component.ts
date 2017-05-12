@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import * as io from "socket.io-client";
-import { SocketService } from './global/socket.service';
 import { LoginObserverService } from './login/loginObserver.service';
-
+import { SocketService } from './global/socket.service'; // socket service
 
 @Component({
   moduleId: module.id,
@@ -14,6 +12,16 @@ export class AppComponent  {
     popUpOpacity: number = 0;
     popUpDisplay: string = "none";
     popUpInnerHTML: string = "";
+
+    constructor(private socketService: SocketService, private router: Router, private loginObserverService: LoginObserverService) {
+        socketService.socket.on('connect', function() {
+            console.log("connected!");
+        });
+
+        socketService.socket.on('disconnect', function() {
+            console.log("disconnected!");
+        }); 
+    }
 
     ngOnInit(){
         if(localStorage.getItem('user') === null){
@@ -46,17 +54,6 @@ export class AppComponent  {
         {
             requestAnimationFrame(this.fade);
         }
-    }
-        
-    
-    constructor(private socketService: SocketService, private router: Router, private loginObserverService: LoginObserverService) {
-        socketService.socket.on('connect', function() {
-            console.log("connected!");
-        });
-
-        socketService.socket.on('disconnect', function() {
-            console.log("disconnected!");
-        }); 
     }
 
     logoutAccount(){

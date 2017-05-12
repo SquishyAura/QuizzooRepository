@@ -8,3 +8,4 @@ socket: SocketIOClient.Socket;
         this.socket = io.connect('http://localhost:9999');
     }
 }
+

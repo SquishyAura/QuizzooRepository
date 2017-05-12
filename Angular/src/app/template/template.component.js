@@ -19,7 +19,6 @@ let TemplateComponent = class TemplateComponent {
         this.socketService = socketService;
         this.router = router;
         this.app = app;
-        this.name = 'Angular';
         this.typesArray = [
             { option: '' },
             { option: 'Multiple-choice' },
@@ -54,13 +53,13 @@ let TemplateComponent = class TemplateComponent {
     ngOnInit() {
         // initialize quiz
         this.myForm = this.formBuilder.group({
-            id: "0",
             title: ['', [forms_1.Validators.required, forms_1.Validators.minLength(5), forms_1.Validators.maxLength(30)]],
             owner: localStorage.getItem('user'),
             access: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             duration: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             individualFeedback: this.formBuilder.array([]),
             ratings: this.formBuilder.array([]),
+            id: "0",
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
@@ -85,26 +84,32 @@ let TemplateComponent = class TemplateComponent {
         });
     }
     addQuestion() {
+        //form control initializes a new question, and pushes that question to the questions array 
         const control = this.myForm.controls['questions'];
         control.push(this.initQuestion());
     }
     addAnswer(input) {
+        //form control initializes a new answer at a certain question index, and pushes that answer to the questions array 
         const control = this.myForm.get('questions.' + input + '.answers');
         control.push(this.initAnswer());
     }
-    removeQuestion(index) {
+    removeQuestion(questionIndex) {
+        //remove question from questions array
         const control = this.myForm.controls['questions'];
-        control.removeAt(index);
+        control.removeAt(questionIndex);
     }
     removeAnswer(questionIndex, answerIndex) {
+        //remove answer at certain question index from answers array
         const control = this.myForm.get('questions.' + questionIndex + '.answers');
         control.removeAt(answerIndex);
     }
     save() {
+        //converts the form to a more readable value, which gets converted to a json object.
         let formObject = this.myForm.getRawValue();
         return formObject;
     }
     emitQuiz() {
+        //sends the form object to the server.
         this.socketService.socket.emit('quiz', JSON.stringify(this.save()));
         setTimeout(() => this.router.navigateByUrl('/home'), 1000);
         this.app.popUpFade("Quiz created.");
