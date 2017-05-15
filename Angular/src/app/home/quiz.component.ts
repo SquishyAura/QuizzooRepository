@@ -36,7 +36,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.service.unsubscribe();
+
         this.stopTimer = true;
     }
 
@@ -64,6 +64,7 @@ export class QuizComponent implements OnInit, OnDestroy {
             {
                 this.submitAnswer(); //submit answer if timer reached 0
                 this.app.popUpFade("Time has run out. Your answers were submitted.");
+                return 'time is up';
             }
         }
     }

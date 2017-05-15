@@ -35,7 +35,6 @@ let QuizComponent = class QuizComponent {
         });
     }
     ngOnDestroy() {
-        this.service.unsubscribe();
         this.stopTimer = true;
     }
     deleteQuiz(id) {
@@ -59,6 +58,7 @@ let QuizComponent = class QuizComponent {
             else {
                 this.submitAnswer(); //submit answer if timer reached 0
                 this.app.popUpFade("Time has run out. Your answers were submitted.");
+                return 'time is up';
             }
         }
     }

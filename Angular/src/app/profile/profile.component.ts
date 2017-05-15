@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import * as io from "socket.io-client";
 import { Router } from '@angular/router';
 import { QuizObserverService } from '../home/quizObserver.service';
@@ -9,7 +9,7 @@ import { SocketService } from '../global/socket.service';
   selector: 'profile-app',
   templateUrl: 'profile.component.html',
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit {
     service: any;
     data: any;
     myQuizzes: any;
@@ -23,9 +23,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.service = this.quizObserverService.getMyQuizzes(localStorage.getItem('user')).subscribe(data => { //only gets JSON upon page load
             this.myQuizzes = data;
         })
-    }
-
-    ngOnDestroy() {
-        this.service.unsubscribe();
     }
 }

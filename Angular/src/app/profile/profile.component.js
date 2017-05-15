@@ -25,9 +25,6 @@ let ProfileComponent = class ProfileComponent {
             this.myQuizzes = data;
         });
     }
-    ngOnDestroy() {
-        this.service.unsubscribe();
-    }
 };
 ProfileComponent = __decorate([
     core_1.Component({
