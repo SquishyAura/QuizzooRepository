@@ -7,7 +7,6 @@ const testing_2 = require('@angular/router/testing');
 const socket_service_1 = require('../../global/socket.service');
 const loginObserver_service_1 = require('../loginObserver.service');
 describe('LoginComponent', function () {
-    let de;
     let socketService;
     let LoginComp;
     let loginfixture;
@@ -29,7 +28,10 @@ describe('LoginComponent', function () {
         appfixture = testing_1.TestBed.createComponent(app_component_1.AppComponent);
         AppComp = appfixture.componentInstance;
     });
-    it('should create component', () => expect(LoginComp).toBeDefined());
+    it('should create LoginComponent', () => expect(LoginComp).toBeDefined());
+    it('should mock loginObserverService', () => expect(service).toBeDefined());
+    it('shoud mock socketService', () => expect(socketService).toBeDefined());
+    it('should create AppComponent', () => expect(AppComp).toBeDefined());
     it('should successfully login if username and password exist in database', (done) => {
         LoginComp.username = 'doaldoal';
         LoginComp.password = '12341234';
