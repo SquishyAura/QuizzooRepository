@@ -5,7 +5,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { async, ComponentFixture, TestBed, inject, getTestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as io from "socket.io-client";
 import { RouterTestingModule } from '@angular/router/testing';
 import { SocketService } from '../../global/socket.service';
@@ -16,10 +16,17 @@ import { ProfileComponent } from '../../profile/profile.component';
 import { QuizObserverService } from "../../home/quizObserver.service";
 import { HomeComponent } from "../../home/home.component";
 import { QuizComponent } from "../../home/quiz.component";
-
-
+import { TemplateComponent } from "../../template/template.component";
+import { QuestionComponent } from "../../template/question.component";
+import { AnswerComponent } from "../../template/answer.component";
 
 describe('Application', function () {
+    let answerComp: AnswerComponent;
+    let answerfixture: ComponentFixture<AnswerComponent>;
+    let questionComp: QuestionComponent;
+    let questionfixture: ComponentFixture<QuestionComponent>;
+    let templateComp: TemplateComponent;
+    let templatefixture: ComponentFixture<TemplateComponent>;
     let quizComp: QuizComponent;
     let quizfixture: ComponentFixture<QuizComponent>;
     let homeComp: HomeComponent;
@@ -41,8 +48,8 @@ describe('Application', function () {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, FormsModule],
-            declarations: [LoginComponent, AppComponent, RegisterComponent, ProfileComponent, HomeComponent, QuizComponent],
+            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
+            declarations: [LoginComponent, AppComponent, RegisterComponent, ProfileComponent, HomeComponent, QuizComponent, TemplateComponent, QuestionComponent,  AnswerComponent],
             providers: [SocketService, LoginObserverService, AppComponent, RegisterObserverService, QuizObserverService]
 
         }).compileComponents();
@@ -53,6 +60,12 @@ describe('Application', function () {
         loginService = new LoginObserverService(socketService);
         registerService = new RegisterObserverService(socketService);
         quizObserverService = new QuizObserverService(socketService);
+        answerfixture = TestBed.createComponent(AnswerComponent);
+        answerComp = answerfixture.componentInstance;
+        questionfixture = TestBed.createComponent(QuestionComponent);
+        questionComp = questionfixture.componentInstance;
+        templatefixture = TestBed.createComponent(TemplateComponent);
+        templateComp = templatefixture.componentInstance;
         quizfixture = TestBed.createComponent(QuizComponent);
         quizComp = quizfixture.componentInstance;
         homefixture = TestBed.createComponent(HomeComponent);
@@ -67,7 +80,9 @@ describe('Application', function () {
         AppComp = appfixture.componentInstance;
     });
 
-    /* LOGIN COMPONENT IN LOGIN DIRECTORY*/
+    /* 
+    * LOGIN COMPONENT IN LOGIN DIRECTORY
+    */
 
     it('should create LoginComponent', () => expect(LoginComp).toBeDefined());
 
@@ -89,7 +104,9 @@ describe('Application', function () {
         )
     }, 10000);
 
-    /* REGISTER COMPONENT IN REGISTER DIRECTORY */
+    /* 
+    * REGISTER COMPONENT IN REGISTER DIRECTORY 
+    */
 
     it('should create RegsiterComponent', () => expect(RegisterComp).toBeDefined());
 
@@ -141,11 +158,15 @@ describe('Application', function () {
         )
     }, 10000);
 
-    /* PROFILE COMPONENT IN PROFILE DIRECTORY */
+    /* 
+    * PROFILE COMPONENT IN PROFILE DIRECTORY 
+    */
 
     it('should create ProfileComponent', () => expect(profileComp).toBeDefined());
 
-    /* HOME COMPONENT IN HOME DIRECTORY */
+    /* 
+    * HOME COMPONENT IN HOME DIRECTORY 
+    */
 
     it('should create HomeComponent', () => expect(homeComp).toBeDefined()); 
 
@@ -159,23 +180,154 @@ describe('Application', function () {
        expect(homeComp.calculateAverage(input, average)).toEqual([4.5]); 
     }) 
 
-    /* QUIZ COMPONENT IN HOME DIRECTORY*/
+    /* 
+    * TEMPLATE COMPONENT IN TEMPLATE DIRECTORY 
+    */
+    it('should create TemplateComponent', () => expect(templateComp).toBeDefined());
 
-    let duration = 0;
-    let stopTimer : boolean = false;
-    let timers = {'hours': 0, 'minutes': 0, 'seconds': 0};
+    it('should create QuestionComponent', () => expect(questionComp).toBeDefined());
 
-    it('should notify when time is up', () =>{
-        console.log(quizComp.countdown(duration))
-    })
+    it('should create AnswerComponent', () => expect(answerComp).toBeDefined());
 
+    it('form invalid when empty', () => {
+        templateComp.ngOnInit();
+        expect(templateComp.myForm.valid).toBeFalsy();
+    });
     
+    it('should invalidate title as its length is not between 5 to 20 characters', () => {
+        templateComp.ngOnInit();
+        let title = templateComp.myForm.controls['title'];
+        expect(title.valid).toBeFalsy();
+    });
     
-    
-    
-    // HUSK AT TESTE SUBMITQUIZRATING OG SUBMITANSWER 
+    it('should validate title as its length is between 5 to 20 charaters', () => {
+        templateComp.ngOnInit();
+        let title = templateComp.myForm.controls['title'];
+        title.setValue("Math quiz");
+        expect(title.valid).toBeTruthy();
+    });
 
+    it('should invalidate access as no option has been chosen', () => {
+        templateComp.ngOnInit();
+        let access = templateComp.myForm.controls['access'];
+        expect(access.valid).toBeFalsy();
+    });
 
+    it('should validate access as an option has been chosen', () => {
+        templateComp.ngOnInit();
+        let access = templateComp.myForm.controls['access'];
+        access.setValue("Public");
+        expect(access.valid).toBeTruthy();
+    });
+
+    it('should invalidate duration as no duration has been chosen', () => {
+        templateComp.ngOnInit();
+        let duration = templateComp.myForm.controls['duration'];
+        expect(duration.valid).toBeFalsy();
+    });
+
+    it('should validate duration as an option has been chosen', () => {
+        templateComp.ngOnInit();
+        let duration = templateComp.myForm.controls['duration'];
+        duration.setValue("1");
+        expect(duration.valid).toBeTruthy();
+    });
+
+    it('should invalidate question text as its length is less than 10 characters', () => {
+        templateComp.ngOnInit();
+        let questionText = templateComp.myForm.get('questions.0.questionText');
+        expect(questionText.valid).toBeFalsy();
+    });
+
+    it('should validate question text as its length is 10 characters or more', () => {
+        templateComp.ngOnInit();
+        let questionsText = templateComp.myForm.get('questions.0.questionText');
+        questionsText.setValue("What is 5 + 2?")
+        expect(questionsText.valid).toBeTruthy();
+    });
+
+    it('should invalidate question type as no type has been chosen', () => {
+        templateComp.ngOnInit();
+        let type = templateComp.myForm.get('questions.0.types');
+        expect(type.valid).toBeFalsy();
+    });
+
+    it('should validate question type as a type has been chosen', () => {
+        templateComp.ngOnInit();
+        let type = templateComp.myForm.get('questions.0.types');
+        type.setValue("Multiple-choice");
+        expect(type.valid).toBeTruthy();
+    });
+
+    it('should invalidate answer text as its length is less than 1 character', () => {
+        templateComp.ngOnInit();
+        let answerText = templateComp.myForm.get('questions.0.answers.0.answerText');
+        expect(answerText.valid).toBeFalsy();
+    });
+
+    it('should validate answer text as its length is 1 character or more', () => {
+        templateComp.ngOnInit();
+        let answerText = templateComp.myForm.get('questions.0.answers.0.answerText');
+        answerText.setValue("7");
+        expect(answerText.valid).toBeTruthy();
+    });
+
+    it('should invalidate correctAnswer as a Correct/Incorrect value has not been chosen', () => {
+        templateComp.ngOnInit();
+        let correctAnswer = templateComp.myForm.get('questions.0.answers.0.correctAnswer');
+        expect(correctAnswer.valid).toBeFalsy();
+    });
+
+    it('should validate correctAnswer as a Correct/Incorrect value has been chosen', () => {
+        templateComp.ngOnInit();
+        let correctAnswer = templateComp.myForm.get('questions.0.answers.0.correctAnswer');
+        correctAnswer.setValue("Correct");
+        expect(correctAnswer.valid).toBeTruthy();
+    });
+
+    it('should add a new question', () => {
+        templateComp.ngOnInit();
+        let questionAmountBeforeAdding = templateComp.myForm.controls['questions'].value.length;
+        templateComp.addQuestion();
+        let questionAmountAfterAdding = templateComp.myForm.controls['questions'].value.length;
+        expect(questionAmountAfterAdding).toBeGreaterThan(questionAmountBeforeAdding);
+    });
+
+    it('should remove a question', () => {
+        templateComp.ngOnInit();
+        let questionAmountBeforeRemoving = templateComp.myForm.controls['questions'].value.length;
+        templateComp.removeQuestion(0); //removes question with index 0
+        let questionAmountAfterRemoving = templateComp.myForm.controls['questions'].value.length;
+        expect(questionAmountBeforeRemoving).toBeGreaterThan(questionAmountAfterRemoving);
+    });
+
+    it('should add a new answer', () => {
+        templateComp.ngOnInit();
+        let answerAmountBeforeAdding = templateComp.myForm.get('questions.0.answers').value.length;
+        templateComp.addAnswer(0); //adds answer to question with index 0
+        let answerAmountAfterAdding = templateComp.myForm.get('questions.0.answers').value.length;
+        expect(answerAmountAfterAdding).toBeGreaterThan(answerAmountBeforeAdding);
+    });
+
+    it('should remove an answer', () => {
+        templateComp.ngOnInit();
+        let answerAmountBeforeRemoving = templateComp.myForm.get('questions.0.answers').value.length;
+        templateComp.removeAnswer(0, 0); //removes answer with index 0 at question with index 0
+        let answerAmountAfterRemoving = templateComp.myForm.get('questions.0.answers').value.length;
+        expect(answerAmountBeforeRemoving).toBeGreaterThan(answerAmountAfterRemoving);
+    });
+
+    it('should validate form', () => {
+        templateComp.ngOnInit();
+        templateComp.myForm.controls['title'].setValue("Math quiz");
+        templateComp.myForm.controls['access'].setValue("Public");
+        templateComp.myForm.controls['duration'].setValue("1");
+        templateComp.myForm.get('questions.0.questionText').setValue("What is 5 + 2?");
+        templateComp.myForm.get('questions.0.types').setValue("Multiple-choice");
+        templateComp.myForm.get('questions.0.answers.0.answerText').setValue("7");
+        templateComp.myForm.get('questions.0.answers.0.correctAnswer').setValue("Correct");
+        expect(templateComp.myForm.valid).toBeTruthy();
+    });
 });
 
 

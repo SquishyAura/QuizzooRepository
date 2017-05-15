@@ -81,7 +81,7 @@ let QuizComponent = class QuizComponent {
         quizBackground.style.opacity = 0;
         quizBackground.style.pointerEvents = "none";
     }
-    submitQuizRating(value) {
+    submitQuizRating() {
         let ratings = this.elementRef.nativeElement.getElementsByClassName('ratings');
         let ratingsCheck = [];
         for (let i = 0; i < ratings.length; i++) {

@@ -93,7 +93,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         quizBackground.style.pointerEvents = "none";
     }
 
-    submitQuizRating(value: any){
+    submitQuizRating(){
         let ratings = this.elementRef.nativeElement.getElementsByClassName('ratings');
         let ratingsCheck:any = [];
 
