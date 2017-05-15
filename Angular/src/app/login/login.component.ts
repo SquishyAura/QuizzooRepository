@@ -22,16 +22,17 @@ export class LoginComponent  {
     loginAccount(){
         this.service = this.loginObserverService.login(this.username, this.password).subscribe(data => {
             if(data == true){
-              localStorage.setItem('user', this.username);
-              this.appComponent.popUpFade("You have successfully logged in.");
+              //localStorage.setItem('user', this.username);
+              //this.appComponent.popUpFade("You have successfully logged in.");
               console.log('logged in');
               this.loginObserverService.user = true;
               this.loginObserverService.guest = false;
-              this.router.navigateByUrl('/home');
+              //this.router.navigateByUrl('/home');
               return true;
             }
             else
             {
+              console.log("hej");
               this.appComponent.popUpFade("Incorrect account information.");
               return false;
             }
