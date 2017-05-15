@@ -132,7 +132,7 @@ function handleCheckboxesAnswers(checkboxes, quizToDisplay, storedProcedureArray
     return correctAnswerCheckboxes;
 }
 
-function removeEmptyElementsInArray(array1, array2){
+removeEmptyElementsInArray= function(array1, array2){
     var cleanedArray = [];
     for(var i = 0; i < array1.length; i++){
         if(array1[i]){

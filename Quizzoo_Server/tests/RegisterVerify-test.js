@@ -22,4 +22,4 @@ describe('RegisterVerify', function () {
         expect(usernameTaken("username","username")).to.equal(true);
     });
 
-});
+}); 
