@@ -2,10 +2,9 @@
 
 // https://github.com/websockets/ws
 
-
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http); //server instance attached to an instance of http.Server listening for incoming events.
+//server instance attached to Node.js HTTP server 
+var server = require('http').createServer();
+var io = require('socket.io')(server); 
 
 var path = require('path');
 var updater = require(path.resolve(__dirname, "./RegisterVerify.js")); //'__dir' is the directory name of the current module
@@ -31,6 +30,6 @@ io.on('connect', function (socket) {
 });
 
 
-http.listen(9999, function() { //server listens to port 9999
+server.listen(9999, function() { //server listens to port 9999
 	console.log("listening to: 9999");
 });
