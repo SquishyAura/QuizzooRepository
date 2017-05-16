@@ -83,7 +83,7 @@ describe('Application', function () {
             expect(data).toEqual(true);
             done();
         });
-    }, 10000);
+    }, 60000);
     /*
     * REGISTER COMPONENT IN REGISTER DIRECTORY
     */
@@ -96,7 +96,7 @@ describe('Application', function () {
             expect(data).toEqual('Username is already taken.');
             done();
         });
-    }, 10000);
+    }, 60000);
     it('should not be able to register if username or passwords are not between 5-20 characters long', (done) => {
         RegisterComp.username = 'doaldoal';
         RegisterComp.password1 = '567';
@@ -105,7 +105,7 @@ describe('Application', function () {
             expect(data).toEqual('Username & Password must be between 5-20 characters long.');
             done();
         });
-    }, 10000);
+    }, 60000);
     it('should not be able to register if username or passwords are empty', (done) => {
         RegisterComp.username = '';
         RegisterComp.password1 = '567';
@@ -114,7 +114,7 @@ describe('Application', function () {
             expect(data).toEqual('Please fill out all fields.');
             done();
         });
-    }, 10000);
+    }, 60000);
     it('should not be able to register if passwords are not matching', (done) => {
         RegisterComp.username = 'doalfikar';
         RegisterComp.password1 = '45678';
@@ -123,7 +123,7 @@ describe('Application', function () {
             expect(data).toEqual('The passwords do not match.');
             done();
         });
-    }, 10000);
+    }, 60000);
     /*
     * PROFILE COMPONENT IN PROFILE DIRECTORY
     */

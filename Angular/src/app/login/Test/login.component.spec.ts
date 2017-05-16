@@ -102,7 +102,7 @@ describe('Application', function () {
             done();
         }
         )
-    }, 10000);
+    }, 60000);
 
     /* 
     * REGISTER COMPONENT IN REGISTER DIRECTORY 
@@ -120,7 +120,7 @@ describe('Application', function () {
             done();
         }
         )
-    }, 10000);
+    }, 60000);
 
     it('should not be able to register if username or passwords are not between 5-20 characters long', (done: DoneFn) => {
         RegisterComp.username = 'doaldoal';
@@ -132,7 +132,7 @@ describe('Application', function () {
             done();
         }
         )
-    }, 10000);
+    }, 60000);
 
     it('should not be able to register if username or passwords are empty', (done: DoneFn) => {
         RegisterComp.username = '';
@@ -144,7 +144,7 @@ describe('Application', function () {
             done();
         }
         )
-    }, 10000);
+    }, 60000);
 
     it('should not be able to register if passwords are not matching', (done: DoneFn) => {
         RegisterComp.username = 'doalfikar';
@@ -156,7 +156,7 @@ describe('Application', function () {
             done();
         }
         )
-    }, 10000);
+    }, 60000);
 
     /* 
     * PROFILE COMPONENT IN PROFILE DIRECTORY 
