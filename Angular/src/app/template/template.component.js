@@ -59,7 +59,7 @@ let TemplateComponent = class TemplateComponent {
             duration: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             individualFeedback: this.formBuilder.array([]),
             ratings: this.formBuilder.array([]),
-            id: "0",
+            id: ["0", [forms_1.Validators.required, forms_1.Validators.maxLength(1)]],
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
@@ -80,7 +80,7 @@ let TemplateComponent = class TemplateComponent {
         return this.formBuilder.group({
             answerText: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
             correctAnswer: ['', [forms_1.Validators.required, forms_1.Validators.minLength(1)]],
-            numberOfClicks: "0",
+            numberOfClicks: ["0", [forms_1.Validators.required, forms_1.Validators.maxLength(1)]],
         });
     }
     addQuestion() {

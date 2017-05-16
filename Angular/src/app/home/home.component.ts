@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.service = this.quizObserverService.getPublicQuizzes().subscribe(data => {
       this.quizzesToDisplay = data;
-      this.calculateAverage(this.quizzesToDisplay, this.quizAverage);
+      this.calculateAverage(data, this.quizAverage);
     })
   }
 

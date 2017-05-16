@@ -58,7 +58,7 @@ export class TemplateComponent implements OnInit {
             duration: ['', [Validators.required, Validators.minLength(1)]],
             individualFeedback: this.formBuilder.array([]),
             ratings: this.formBuilder.array([]),
-            id: "0",
+            id: ["0", [Validators.required, Validators.maxLength(1)]],
             questions: this.formBuilder.array([
                 this.initQuestion()
             ]),
@@ -81,7 +81,7 @@ export class TemplateComponent implements OnInit {
         return this.formBuilder.group({
             answerText: ['', [Validators.required, Validators.minLength(1)]],
             correctAnswer: ['', [Validators.required, Validators.minLength(1)]],
-            numberOfClicks: "0",
+            numberOfClicks: ["0", [Validators.required, Validators.maxLength(1)]],
         });
     }
 
