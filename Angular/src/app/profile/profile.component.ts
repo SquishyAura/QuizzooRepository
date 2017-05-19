@@ -2,8 +2,6 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import * as io from "socket.io-client";
 import { Router } from '@angular/router';
 import { QuizObserverService } from '../home/quizObserver.service';
-import { SocketService } from '../global/socket.service';
-
 @Component({
   moduleId: module.id,
   selector: 'profile-app',
@@ -15,7 +13,7 @@ export class ProfileComponent implements OnInit {
     myQuizzes: any;
     currentUser: string;
 
-    constructor(private router:Router, private quizObserverService:QuizObserverService, private socketService:SocketService, private elementRef:ElementRef){
+    constructor(private router:Router, private quizObserverService:QuizObserverService, private elementRef:ElementRef){
         this.currentUser = localStorage.getItem('user');
     }
 

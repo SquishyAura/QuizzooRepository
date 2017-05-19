@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import * as io from "socket.io-client";
 import { Router } from '@angular/router';
 import { QuizObserverService } from './quizObserver.service';
 import { SocketService } from '../global/socket.service';

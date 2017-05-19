@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import * as io from "socket.io-client";
-import { SocketService } from '../global/socket.service';
 import { Router } from '@angular/router';
 import { LoginObserverService } from './loginObserver.service'
 import { AppComponent }  from '../app.component';
@@ -17,7 +16,7 @@ export class LoginComponent  {
     service: any;
     data: any;
 
-    constructor(private socketService: SocketService, private router: Router, private loginObserverService: LoginObserverService, private appComponent: AppComponent){ } 
+    constructor(private router: Router, private loginObserverService: LoginObserverService, private appComponent: AppComponent){ } 
 
     loginAccount(){
         this.service = this.loginObserverService.login(this.username, this.password).subscribe(data => {
@@ -32,7 +31,6 @@ export class LoginComponent  {
             }
             else
             {
-              console.log("hej");
               this.appComponent.popUpFade("Incorrect account information.");
               return false;
             }
@@ -41,7 +39,8 @@ export class LoginComponent  {
 
     ngOnInit(){
         if(localStorage.getItem('user')){
-              
+            this.loginObserverService.user = true;
+            this.loginObserverService.guest = false;
         }
     }
 }

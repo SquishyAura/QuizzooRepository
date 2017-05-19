@@ -1,4 +1,4 @@
-var documentClient = require("documentdb").DocumentClient;
+var documentClient = require("./node_modules/documentdb").DocumentClient;
 
 var databaseID = "quizzoo";
 var quizzesCollectionID = "quizzes";
@@ -172,7 +172,7 @@ insertAccountDocument = function(document){
         .then(() => queryCollection(accountsCollectionID, accountsCollectionUrl))
 }
 
-loginAccount = function(username, password, socket, callback){
+loginAccount = function(username, password, callback){
     client.queryDocuments(accountsCollectionUrl, 'SELECT a FROM accounts a WHERE a.username = "' + username +'" AND a.password = "' + password + '"').toArray((err, results) => {
         if (err) { 
             console.log(err);
@@ -188,7 +188,6 @@ loginAccount = function(username, password, socket, callback){
                 correctAccout = true;
             }
 
-            
             callback('error', correctAccout);
         }
     });

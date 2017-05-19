@@ -9,13 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
-const socket_service_1 = require('../global/socket.service');
 const router_1 = require('@angular/router');
 const loginObserver_service_1 = require('./loginObserver.service');
 const app_component_1 = require('../app.component');
 let LoginComponent = class LoginComponent {
-    constructor(socketService, router, loginObserverService, appComponent) {
-        this.socketService = socketService;
+    constructor(router, loginObserverService, appComponent) {
         this.router = router;
         this.loginObserverService = loginObserverService;
         this.appComponent = appComponent;
@@ -32,7 +30,6 @@ let LoginComponent = class LoginComponent {
                 return true;
             }
             else {
-                console.log("hej");
                 this.appComponent.popUpFade("Incorrect account information.");
                 return false;
             }
@@ -40,6 +37,8 @@ let LoginComponent = class LoginComponent {
     }
     ngOnInit() {
         if (localStorage.getItem('user')) {
+            this.loginObserverService.user = true;
+            this.loginObserverService.guest = false;
         }
     }
 };
@@ -49,7 +48,7 @@ LoginComponent = __decorate([
         selector: 'login-app',
         templateUrl: 'login.component.html',
     }), 
-    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router, loginObserver_service_1.LoginObserverService, app_component_1.AppComponent])
+    __metadata('design:paramtypes', [router_1.Router, loginObserver_service_1.LoginObserverService, app_component_1.AppComponent])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

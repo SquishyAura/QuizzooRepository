@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import * as io from "socket.io-client";
-import { SocketService } from '../global/socket.service';
 import { Router } from '@angular/router';
 import { RegisterObserverService } from './registerObserver.service';
 import { AppComponent }  from '../app.component';
@@ -18,7 +17,7 @@ export class RegisterComponent  {
     service: any;
     data: any;
 
-    constructor(private socketService: SocketService, private router: Router, private registerObserverService: RegisterObserverService, private appComponent: AppComponent){ } 
+    constructor(private router: Router, private registerObserverService: RegisterObserverService, private appComponent: AppComponent){ } 
     
     registerAccount(){
         this.service = this.registerObserverService.register(this.username, this.password1, this.password2).subscribe((data: any) => {

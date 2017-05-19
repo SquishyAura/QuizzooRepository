@@ -9,13 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
-const socket_service_1 = require('../global/socket.service');
 const router_1 = require('@angular/router');
 const registerObserver_service_1 = require('./registerObserver.service');
 const app_component_1 = require('../app.component');
 let RegisterComponent = class RegisterComponent {
-    constructor(socketService, router, registerObserverService, appComponent) {
-        this.socketService = socketService;
+    constructor(router, registerObserverService, appComponent) {
         this.router = router;
         this.registerObserverService = registerObserverService;
         this.appComponent = appComponent;
@@ -44,7 +42,7 @@ RegisterComponent = __decorate([
         selector: 'register-app',
         templateUrl: 'register.component.html',
     }), 
-    __metadata('design:paramtypes', [socket_service_1.SocketService, router_1.Router, registerObserver_service_1.RegisterObserverService, app_component_1.AppComponent])
+    __metadata('design:paramtypes', [router_1.Router, registerObserver_service_1.RegisterObserverService, app_component_1.AppComponent])
 ], RegisterComponent);
 exports.RegisterComponent = RegisterComponent;
 //# sourceMappingURL=register.component.js.map

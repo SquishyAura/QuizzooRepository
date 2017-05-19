@@ -7,6 +7,6 @@ loginVerify = function(socket){
 		var username = incomingMsg.username;
 		var password = incomingMsg.password;
         
-        loginAccount(username, password, socket, callback);
+        loginAccount(username, password, callback);
     });
 }

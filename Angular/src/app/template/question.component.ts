@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
     templateUrl: 'question.component.html'
 })
 export class QuestionComponent {
-    // we will pass in question from App component
+    // this input property aliases this child component property name 'questionForm' as 'group'
     @Input('group')
     public questionForm: FormGroup;
 }

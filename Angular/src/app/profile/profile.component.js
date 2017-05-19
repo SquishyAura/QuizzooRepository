@@ -11,12 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 const core_1 = require('@angular/core');
 const router_1 = require('@angular/router');
 const quizObserver_service_1 = require('../home/quizObserver.service');
-const socket_service_1 = require('../global/socket.service');
 let ProfileComponent = class ProfileComponent {
-    constructor(router, quizObserverService, socketService, elementRef) {
+    constructor(router, quizObserverService, elementRef) {
         this.router = router;
         this.quizObserverService = quizObserverService;
-        this.socketService = socketService;
         this.elementRef = elementRef;
         this.currentUser = localStorage.getItem('user');
     }
@@ -32,7 +30,7 @@ ProfileComponent = __decorate([
         selector: 'profile-app',
         templateUrl: 'profile.component.html',
     }), 
-    __metadata('design:paramtypes', [router_1.Router, quizObserver_service_1.QuizObserverService, socket_service_1.SocketService, core_1.ElementRef])
+    __metadata('design:paramtypes', [router_1.Router, quizObserver_service_1.QuizObserverService, core_1.ElementRef])
 ], ProfileComponent);
 exports.ProfileComponent = ProfileComponent;
 //# sourceMappingURL=profile.component.js.map
