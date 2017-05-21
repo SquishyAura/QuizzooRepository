@@ -36,7 +36,7 @@ body {
 
 .home_image {
 	width: 10%;
-	height: 90%;
+	height: 100%;
 	float: left;
 	pointer-events: none;
 	opacity: 0;

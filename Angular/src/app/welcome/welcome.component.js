@@ -13,7 +13,6 @@ const router_1 = require('@angular/router');
 let WelcomeComponent = class WelcomeComponent {
     constructor(router) {
         this.router = router;
-        this.name = 'Angular';
     }
     ngOnInit() {
         if (localStorage.getItem('user')) {

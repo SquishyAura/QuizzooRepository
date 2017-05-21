@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   selector: 'welcome-app',
   templateUrl: 'welcome.component.html',
 })
-export class WelcomeComponent { name = 'Angular'; 
+export class WelcomeComponent {
 
   constructor(private router: Router){ }
 
